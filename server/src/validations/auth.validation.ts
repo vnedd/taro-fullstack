@@ -31,18 +31,6 @@ class authValidation {
       next(error);
     }
   };
-  static loginGoogleValidation = async (req: Request, res: Response, next: NextFunction) => {
-    const correctCondition = Joi.object({
-      token: Joi.string().trim().required()
-    });
-
-    try {
-      await validateBeforeCreateOrUpdate(correctCondition, req.body);
-      next();
-    } catch (error) {
-      next(error);
-    }
-  };
 }
 
 export default authValidation;

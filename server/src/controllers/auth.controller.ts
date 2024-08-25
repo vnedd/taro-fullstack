@@ -1,5 +1,4 @@
 import { StatusCodes } from 'http-status-codes';
-import { ServerResponse } from 'http';
 import { NextFunction, Request, Response } from 'express';
 import { AuthService } from '~/services/auth.service';
 import { SuccessResponse } from '~/utils/Response';

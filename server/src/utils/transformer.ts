@@ -10,9 +10,6 @@ class Transformer {
       const newObj: { [key: string]: any } = {};
       Object.keys(obj).forEach((key) => {
         let newKey = Transformer.snakeToCamel(key);
-        if (key === 'createdAt' || key === 'updatedAt') {
-          return;
-        }
         // Special case for _id to id
         if (key === '_id') {
           newKey = 'id';
