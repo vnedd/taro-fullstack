@@ -1,5 +1,5 @@
 import express from 'express';
-import { CategoryController } from '~/controllers/category,controller';
+import { CategoryController } from '~/controllers/category.controller';
 import { authMiddleware } from '~/middlewares/authMiddleware';
 import categoryValidation from '~/validations/category.validation';
 import { objectIdValidation } from '~/validations/objectId.validation';

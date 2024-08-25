@@ -67,7 +67,7 @@ export default class CategoryService {
     );
 
     if (!updateCategory) {
-      throw new ApiError(StatusCodes.CONFLICT, 'This brand is not available');
+      throw new ApiError(StatusCodes.CONFLICT, 'This category is not available');
     }
     const responseData = Transformer.transformObjectTypeSnakeToCamel(updateCategory.toObject());
     return responseData;

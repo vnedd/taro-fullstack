@@ -13,7 +13,7 @@ interface QueryParams {
 const getPaginationOptions = (req: Request): PaginateOptions => {
   const {
     _page = '1',
-    _limit = '10',
+    _limit = '5',
     _order = 'asc',
     _sort = 'createdAt',
     _pagination = 'true'
