@@ -60,6 +60,8 @@ const DataTablePagination = <T,>({
       <PaginationLink
         href="#"
         onClick={(e) => {
+          console.log("click");
+          console.log(pageNumber);
           e.preventDefault();
           onPageChange(pageNumber);
         }}
@@ -75,7 +77,7 @@ const DataTablePagination = <T,>({
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            href="#"
+            className="cursor-pointer"
             onClick={(e) => {
               e.preventDefault();
               if (page > 1) onPageChange(page - 1);
@@ -87,7 +89,7 @@ const DataTablePagination = <T,>({
 
         <PaginationItem>
           <PaginationNext
-            href="#"
+            className="cursor-pointer"
             onClick={(e) => {
               e.preventDefault();
               if (page < totalPages) onPageChange(page + 1);

@@ -1,13 +1,17 @@
 import AdminLayout from "@/layouts/admin";
 import AuthLayout from "@/layouts/auth";
 import DefaultLayout from "@/layouts/default";
-import CategoriesPage from "@/pages/admin/categories";
-import DashboardPage from "@/pages/admin/dashboard";
+import CategoriesPage from "@/pages/(admin)/categories";
+import ColorsPage from "@/pages/(admin)/colors";
+import DashboardPage from "@/pages/(admin)/dashboard";
+import SizesPage from "@/pages/(admin)/sizes";
+import StylesPage from "@/pages/(admin)/styles";
 
-import HomePage from "@/pages/home";
-import LoginPage from "@/pages/login";
+import HomePage from "@/pages/(platform)/home";
+import LoginPage from "@/pages/(platform)/login";
+import RegisterPage from "@/pages/(platform)/register";
+
 import NotFound from "@/pages/not-found";
-import RegisterPage from "@/pages/register";
 
 export const routerConfig = [
   {
@@ -45,6 +49,18 @@ export const routerConfig = [
       {
         path: "categories",
         element: <CategoriesPage />,
+      },
+      {
+        path: "styles",
+        element: <StylesPage />,
+      },
+      {
+        path: "sizes",
+        element: <SizesPage />,
+      },
+      {
+        path: "colors",
+        element: <ColorsPage />,
       },
     ],
   },

@@ -15,8 +15,8 @@ export interface IPaginationResponse<T> {
 }
 
 export type TUrlParams = {
-  page?: number;
-  limit?: number;
+  _page?: number;
+  _limit?: number;
   name?: string;
   getAll?: boolean;
   categoryId?: string;

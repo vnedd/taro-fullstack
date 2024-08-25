@@ -1,12 +1,6 @@
-export interface QueryParams {
-  page?: number;
-  limit?: number;
-  search?: string;
-  getAll?: boolean;
-  [key: string]: any;
-}
+import { TUrlParams } from "@/types/response";
 
-export function buildUrl(apiPrefix: string, params: QueryParams): string {
+export function buildUrl(apiPrefix: string, params: TUrlParams): string {
   const queryParams = new URLSearchParams();
 
   if (params.getAll) {

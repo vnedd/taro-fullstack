@@ -8,46 +8,46 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import CategoriesClient from "./_components/category-client";
 import EmptyBlock from "@/components/emty-block";
 import HeaderAction from "./_components/header-action";
 import PaginationActions from "@/components/ui/data-table-pagination";
 import TableSkeleton from "@/components/skeletons/table-skeleton";
-import { useCategories } from "@/hooks/use-categories";
 import ErrorBlock from "@/components/error-block";
+import { useColors } from "@/hooks/use-colors";
+import ColorsClient from "./_components/color-client";
 
-const CategoriesPage = () => {
+const ColorsPage = () => {
   const [params, setParams] = useState({
-    page: 1,
-    limit: 5,
+    _page: 1,
+    _limit: 5,
     name: "",
   });
 
   const [searchDebouce] = useDebounce(params.name, 400);
 
-  const { data, isLoading, error } = useCategories({
+  const { data, isLoading, error } = useColors({
     ...params,
     name: searchDebouce,
   });
 
   useEffect(() => {
     if (searchDebouce) {
-      setParams((prev) => ({ ...prev, name: searchDebouce, page: 1 }));
+      setParams((prev) => ({ ...prev, name: searchDebouce, _page: 1 }));
     }
   }, [searchDebouce]);
 
   if (error) return <ErrorBlock />;
 
   const handlePageChange = (newPage: number) => {
-    setParams((prevParams) => ({ ...prevParams, page: newPage }));
+    setParams((prevParams) => ({ ...prevParams, _page: newPage }));
   };
 
   return (
     <>
       <Card>
         <CardHeader>
-          <CardTitle>Categories</CardTitle>
-          <CardDescription>Manager your platform categories!</CardDescription>
+          <CardTitle>Colors</CardTitle>
+          <CardDescription>Manager your platform colors!</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex justify-end items-center space-x-2 my-2">
@@ -67,7 +67,7 @@ const CategoriesPage = () => {
             <TableSkeleton />
           ) : data && data.metaData.length > 0 ? (
             <>
-              <CategoriesClient data={data} />
+              <ColorsClient data={data} />
               <PaginationActions
                 onPageChange={handlePageChange}
                 paginationData={data}
@@ -75,8 +75,8 @@ const CategoriesPage = () => {
             </>
           ) : (
             <EmptyBlock
-              title="You have no categories"
-              subTitle="You can start selling as soon as you add a category."
+              title="You have no colors"
+              subTitle="You can start selling as soon as you add a color."
             />
           )}
         </CardContent>
@@ -85,4 +85,4 @@ const CategoriesPage = () => {
   );
 };
 
-export default CategoriesPage;
+export default ColorsPage;
