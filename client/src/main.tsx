@@ -6,15 +6,18 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import App from "./App.tsx";
 import "@/styles/index.css";
 import { apiConfig } from "./services/api.config";
-import ToastProvider from "./providers/toast-provider.tsx";
+import ToastProvider from "./providers/toast-provider";
+import QueryProvider from "./providers/query-provider";
 
 apiConfig();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <BrowserRouter>
-        <ToastProvider />
-        <App />
+        <QueryProvider>
+          <ToastProvider />
+          <App />
+        </QueryProvider>
       </BrowserRouter>
     </GoogleOAuthProvider>
   </StrictMode>
