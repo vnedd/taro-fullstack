@@ -21,21 +21,21 @@ const ProductsPage = () => {
   const [params, setParams] = useState({
     _page: 1,
     _limit: 5,
-    search: "",
+    name: "",
   });
 
-  const [searchDebouce] = useDebounce(params.search, 500);
+  const [nameDebouce] = useDebounce(params.name, 500);
 
   const { data, isLoading, error, isRefetching } = useProducts({
     ...params,
-    name: searchDebouce,
+    name: nameDebouce,
   });
 
   useEffect(() => {
-    if (searchDebouce) {
-      setParams((prev) => ({ ...prev, search: searchDebouce, _page: 1 }));
+    if (nameDebouce) {
+      setParams((prev) => ({ ...prev, name: nameDebouce, _page: 1 }));
     }
-  }, [searchDebouce]);
+  }, [nameDebouce]);
 
   if (error) return <ErrorBlock />;
 
@@ -56,9 +56,9 @@ const ProductsPage = () => {
             <Input
               className="max-w-96 h-[35px]"
               type="text"
-              value={params.search}
+              value={params.name}
               onChange={(e) =>
-                setParams((prev) => ({ ...prev, search: e.target.value }))
+                setParams((prev) => ({ ...prev, name: e.target.value }))
               }
               placeholder="Search name.."
             />
