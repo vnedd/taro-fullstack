@@ -6,13 +6,22 @@ import Header from "./_components/header";
 import Sidebar from "./_components/sidebar";
 
 const AdminLayout = () => {
-  const { profile } = useAuthStore((s) => s);
+  const { profile, getProfile } = useAuthStore();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getProfile();
+  }, [getProfile]);
+
   useEffect(() => {
     if (!profile || profile.role !== ERole.ADMIN) {
       navigate("/");
     }
   }, [navigate, profile]);
+
+  if (!profile || profile.role !== ERole.ADMIN) {
+    return null;
+  }
 
   return (
     <div>

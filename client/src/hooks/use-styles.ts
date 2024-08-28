@@ -44,6 +44,11 @@ export const useCreateStyle = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["styles"] });
     },
+    onError: (error: any) => {
+      const errorMessage =
+        error?.response.data.message || "Create style failed";
+      return Promise.reject(errorMessage);
+    },
   });
 };
 
@@ -55,6 +60,11 @@ export const useUpdateStyle = () => {
       queryClient.invalidateQueries({ queryKey: ["styles"] });
       queryClient.invalidateQueries({ queryKey: ["style", variables.id] });
     },
+    onError: (error: any) => {
+      const errorMessage =
+        error?.response.data.message || "Update style failed";
+      return Promise.reject(errorMessage);
+    },
   });
 };
 
@@ -64,6 +74,11 @@ export const useDeleteStyle = () => {
     mutationFn: deleteStyle,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["styles"] });
+    },
+    onError: (error: any) => {
+      const errorMessage =
+        error?.response.data.message || "Delete style failed";
+      return Promise.reject(errorMessage);
     },
   });
 };

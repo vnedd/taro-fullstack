@@ -44,6 +44,11 @@ const useCreateCategory = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
+    onError: (error: any) => {
+      const errorMessage =
+        error?.response.data.message || "Create category failed";
+      return Promise.reject(errorMessage);
+    },
   });
 };
 
@@ -55,6 +60,11 @@ const useUpdateCategory = () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
       queryClient.invalidateQueries({ queryKey: ["category", variables.id] });
     },
+    onError: (error: any) => {
+      const errorMessage =
+        error?.response.data.message || "Update category failed";
+      return Promise.reject(errorMessage);
+    },
   });
 };
 
@@ -64,6 +74,11 @@ const useDeleteCategory = () => {
     mutationFn: deleteCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
+    },
+    onError: (error: any) => {
+      const errorMessage =
+        error?.response.data.message || "Delete category failed";
+      return Promise.reject(errorMessage);
     },
   });
 };

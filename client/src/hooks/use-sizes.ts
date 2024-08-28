@@ -43,6 +43,10 @@ export const useCreateSize = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["sizes"] });
     },
+    onError: (error: any) => {
+      const errorMessage = error?.response.data.message || "Create size failed";
+      return Promise.reject(errorMessage);
+    },
   });
 };
 
@@ -54,6 +58,10 @@ export const useUpdateSize = () => {
       queryClient.invalidateQueries({ queryKey: ["sizes"] });
       queryClient.invalidateQueries({ queryKey: ["size", variables.id] });
     },
+    onError: (error: any) => {
+      const errorMessage = error?.response.data.message || "Update size failed";
+      return Promise.reject(errorMessage);
+    },
   });
 };
 
@@ -63,6 +71,10 @@ export const useDeleteSize = () => {
     mutationFn: deleteSize,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["sizes"] });
+    },
+    onError: (error: any) => {
+      const errorMessage = error?.response.data.message || "Delete size failed";
+      return Promise.reject(errorMessage);
     },
   });
 };

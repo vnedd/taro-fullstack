@@ -18,6 +18,6 @@ export type TUrlParams = {
   _page?: number;
   _limit?: number;
   name?: string;
-  getAll?: boolean;
+  get_all?: boolean;
   categoryId?: string;
 };

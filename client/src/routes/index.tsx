@@ -1,9 +1,14 @@
 import AdminLayout from "@/layouts/admin";
 import AuthLayout from "@/layouts/auth";
 import DefaultLayout from "@/layouts/default";
+
 import CategoriesPage from "@/pages/(admin)/categories";
 import ColorsPage from "@/pages/(admin)/colors";
 import DashboardPage from "@/pages/(admin)/dashboard";
+import ProductsPage from "@/pages/(admin)/products";
+import AddNewPage from "@/pages/(admin)/products/add";
+import CopyPage from "@/pages/(admin)/products/copy";
+import UpdatePage from "@/pages/(admin)/products/update";
 import SizesPage from "@/pages/(admin)/sizes";
 import StylesPage from "@/pages/(admin)/styles";
 
@@ -61,6 +66,15 @@ export const routerConfig = [
       {
         path: "colors",
         element: <ColorsPage />,
+      },
+      {
+        path: "products",
+        children: [
+          { path: "", element: <ProductsPage /> },
+          { path: "add", element: <AddNewPage /> },
+          { path: "update/:id", element: <UpdatePage /> },
+          { path: "copy/:id", element: <CopyPage /> },
+        ],
       },
     ],
   },

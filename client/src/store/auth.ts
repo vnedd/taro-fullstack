@@ -101,7 +101,7 @@ const storeApi: StateCreator<AuthState> = (set, get) => ({
       const refreshToken = localStorage.getItem("refreshToken");
 
       if (!accessToken || !refreshToken) {
-        throw new Error("Tokens are missing");
+        return;
       }
 
       if (!checkToken(accessToken) && checkToken(refreshToken)) {

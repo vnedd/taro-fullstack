@@ -5,8 +5,7 @@ import { Outlet } from "react-router-dom";
 const DefaultLayout = () => {
   const { getProfile } = useAuthStore();
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (token) getProfile();
+    getProfile();
   }, [getProfile]);
 
   return (

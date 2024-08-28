@@ -43,6 +43,11 @@ export const useCreateColor = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["colors"] });
     },
+    onError: (error: any) => {
+      const errorMessage =
+        error?.response.data.message || "Create color failed";
+      return Promise.reject(errorMessage);
+    },
   });
 };
 
@@ -54,6 +59,11 @@ export const useUpdateColor = () => {
       queryClient.invalidateQueries({ queryKey: ["colors"] });
       queryClient.invalidateQueries({ queryKey: ["color", variables.id] });
     },
+    onError: (error: any) => {
+      const errorMessage =
+        error?.response.data.message || "Update color failed";
+      return Promise.reject(errorMessage);
+    },
   });
 };
 
@@ -63,6 +73,11 @@ export const useDeleteColor = () => {
     mutationFn: deleteColor,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["colors"] });
+    },
+    onError: (error: any) => {
+      const errorMessage =
+        error?.response.data.message || "Delete color failed";
+      return Promise.reject(errorMessage);
     },
   });
 };
