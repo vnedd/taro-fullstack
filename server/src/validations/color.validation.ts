@@ -1,6 +1,10 @@
 import Joi from 'joi';
 import { NextFunction, Request, Response } from 'express';
-import { OBJECT_ID_RULE, OBJECT_ID_RULE_MESSAGE, validateBeforeCreateOrUpdate } from '~/utils/Validators';
+import {
+  OBJECT_ID_RULE,
+  OBJECT_ID_RULE_MESSAGE,
+  validateBeforeCreateOrUpdate
+} from '~/utils/Validators';
 
 class colorValidation {
   static createValidation = async (req: Request, res: Response, next: NextFunction) => {

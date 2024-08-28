@@ -13,7 +13,12 @@ colorRouter.get('/', authMiddleware, ColorController.getAllColor);
 colorRouter.get('/:id', objectIdValidation, authMiddleware, ColorController.getOneColor);
 
 // create a new color
-colorRouter.post('/', authMiddleware, colorValidation.createValidation, ColorController.createNewColor);
+colorRouter.post(
+  '/',
+  authMiddleware,
+  colorValidation.createValidation,
+  ColorController.createNewColor
+);
 
 // update a color by id
 colorRouter.patch(

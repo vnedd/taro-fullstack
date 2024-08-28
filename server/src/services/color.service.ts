@@ -8,22 +8,34 @@ import { Transformer } from '~/utils/transformer';
 
 export default class ColorService {
   static getAllColor = async (req: Request) => {
-    const options = getPaginationOptions(req);
+    const { get_all } = req.query;
+
     const filter = getFilterOptions(req, ['name']);
 
-    const paginatedColors = await Color.paginate(filter, options);
+    let colors;
 
-    const { docs, ...otherFields } = paginatedColors;
+    if (get_all === 'true') {
+      colors = await Color.find(filter);
+      const transformedColors = colors.map((color) => {
+        return Transformer.transformObjectTypeSnakeToCamel(color.toObject());
+      });
+      return {
+        metaData: Transformer.removeDeletedField(transformedColors),
+        others: {}
+      };
+    }
+    const options = getPaginationOptions(req);
+    colors = await Color.paginate(filter, options);
+
+    const { docs, ...otherFields } = colors;
 
     const transformedColors = docs.map((color) => {
       return Transformer.transformObjectTypeSnakeToCamel(color.toObject());
     });
-    const others = {
-      ...otherFields
-    };
+
     return {
       metaData: Transformer.removeDeletedField(transformedColors),
-      others
+      others: get_all === 'true' ? {} : otherFields
     };
   };
 

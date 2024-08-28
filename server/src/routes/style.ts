@@ -13,7 +13,12 @@ styleRouter.get('/', authMiddleware, StyleController.getAllStyle);
 styleRouter.get('/:id', objectIdValidation, authMiddleware, StyleController.getOneStyle);
 
 // create a new style
-styleRouter.post('/', authMiddleware, styleValidation.createValidation, StyleController.createNewStyle);
+styleRouter.post(
+  '/',
+  authMiddleware,
+  styleValidation.createValidation,
+  StyleController.createNewStyle
+);
 
 // update a style by id
 styleRouter.patch(

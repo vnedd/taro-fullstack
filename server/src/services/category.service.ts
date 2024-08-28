@@ -8,22 +8,34 @@ import { Transformer } from '~/utils/transformer';
 
 export default class CategoryService {
   static getAllCategory = async (req: Request) => {
-    const options = getPaginationOptions(req);
+    const { get_all } = req.query;
+
     const filter = getFilterOptions(req, ['name']);
 
-    const paginatedCategories = await Category.paginate(filter, options);
+    let categories;
 
-    const { docs, ...otherFields } = paginatedCategories;
+    if (get_all === 'true') {
+      categories = await Category.find(filter);
+      const transformedCategorys = categories.map((color) => {
+        return Transformer.transformObjectTypeSnakeToCamel(color.toObject());
+      });
+      return {
+        metaData: Transformer.removeDeletedField(transformedCategorys),
+        others: {}
+      };
+    }
+    const options = getPaginationOptions(req);
+    categories = await Category.paginate(filter, options);
 
-    const transformedCategorys = docs.map((cate) => {
-      return Transformer.transformObjectTypeSnakeToCamel(cate.toObject());
+    const { docs, ...otherFields } = categories;
+
+    const transformedCategorys = docs.map((color) => {
+      return Transformer.transformObjectTypeSnakeToCamel(color.toObject());
     });
-    const others = {
-      ...otherFields
-    };
+
     return {
       metaData: Transformer.removeDeletedField(transformedCategorys),
-      others
+      others: get_all === 'true' ? {} : otherFields
     };
   };
 

@@ -8,22 +8,34 @@ import { Transformer } from '~/utils/transformer';
 
 export default class SizeService {
   static getAllSize = async (req: Request) => {
-    const options = getPaginationOptions(req);
+    const { get_all } = req.query;
+
     const filter = getFilterOptions(req, ['name']);
 
-    const paginatedSizes = await Size.paginate(filter, options);
+    let sizes;
 
-    const { docs, ...otherFields } = paginatedSizes;
+    if (get_all === 'true') {
+      sizes = await Size.find(filter);
+      const transformedSizes = sizes.map((size) => {
+        return Transformer.transformObjectTypeSnakeToCamel(size.toObject());
+      });
+      return {
+        metaData: Transformer.removeDeletedField(transformedSizes),
+        others: {}
+      };
+    }
+    const options = getPaginationOptions(req);
+    sizes = await Size.paginate(filter, options);
+
+    const { docs, ...otherFields } = sizes;
 
     const transformedSizes = docs.map((size) => {
       return Transformer.transformObjectTypeSnakeToCamel(size.toObject());
     });
-    const others = {
-      ...otherFields
-    };
+
     return {
       metaData: Transformer.removeDeletedField(transformedSizes),
-      others
+      others: get_all === 'true' ? {} : otherFields
     };
   };
 
@@ -59,7 +71,11 @@ export default class SizeService {
       await checkRecordByField(Size, 'name', name, false, req.params.id);
     }
 
-    const updateSize = await Size.findByIdAndUpdate(req.params.id, { name, value }, { new: true, runValidators: true });
+    const updateSize = await Size.findByIdAndUpdate(
+      req.params.id,
+      { name, value },
+      { new: true, runValidators: true }
+    );
 
     if (!updateSize) {
       throw new ApiError(StatusCodes.CONFLICT, 'This size is not available');

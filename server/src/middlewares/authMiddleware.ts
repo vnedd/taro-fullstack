@@ -16,7 +16,9 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     if (!accessToken) throw new ApiError(StatusCodes.UNAUTHORIZED, 'Not authorized');
 
     // decode accessToken to get user_id
-    const { user_id } = jwtUtils.decodeAccessToken(accessToken) as JwtPayload & { user_id?: string };
+    const { user_id } = jwtUtils.decodeAccessToken(accessToken) as JwtPayload & {
+      user_id?: string;
+    };
 
     const user = await User.findById(user_id);
 
@@ -29,6 +31,8 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
 
     next();
   } catch (error) {
-    next(new ApiError(StatusCodes.UNAUTHORIZED, error instanceof Error ? error.message : String(error)));
+    next(
+      new ApiError(StatusCodes.UNAUTHORIZED, error instanceof Error ? error.message : String(error))
+    );
   }
 };

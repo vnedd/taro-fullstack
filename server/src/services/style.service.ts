@@ -8,22 +8,34 @@ import { Transformer } from '~/utils/transformer';
 
 export default class StyleService {
   static getAllStyle = async (req: Request) => {
-    const options = getPaginationOptions(req);
+    const { get_all } = req.query;
+
     const filter = getFilterOptions(req, ['name']);
 
-    const paginatedStyles = await Style.paginate(filter, options);
+    let styles;
 
-    const { docs, ...otherFields } = paginatedStyles;
+    if (get_all === 'true') {
+      styles = await Style.find(filter);
+      const transformedStyles = styles.map((style) => {
+        return Transformer.transformObjectTypeSnakeToCamel(style.toObject());
+      });
+      return {
+        metaData: Transformer.removeDeletedField(transformedStyles),
+        others: {}
+      };
+    }
+    const options = getPaginationOptions(req);
+    styles = await Style.paginate(filter, options);
+
+    const { docs, ...otherFields } = styles;
 
     const transformedStyles = docs.map((style) => {
       return Transformer.transformObjectTypeSnakeToCamel(style.toObject());
     });
-    const others = {
-      ...otherFields
-    };
+
     return {
       metaData: Transformer.removeDeletedField(transformedStyles),
-      others
+      others: get_all === 'true' ? {} : otherFields
     };
   };
 

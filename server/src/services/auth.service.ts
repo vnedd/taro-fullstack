@@ -36,7 +36,10 @@ export class AuthService {
     }
 
     if (user.google_id && !user.password) {
-      throw new ApiError(StatusCodes.BAD_REQUEST, 'Your account must be signed in with google provider');
+      throw new ApiError(
+        StatusCodes.BAD_REQUEST,
+        'Your account must be signed in with google provider'
+      );
     }
 
     const isMatch = bcrypt.compare(password, user.password as string);
@@ -53,7 +56,11 @@ export class AuthService {
     // create refresh token
     const refreshToken = jwtUtils.createRefreshToken();
 
-    await Token.findOneAndUpdate({ user_id: user._id }, { refresh_token: refreshToken }, { upsert: true, new: true });
+    await Token.findOneAndUpdate(
+      { user_id: user._id },
+      { refresh_token: refreshToken },
+      { upsert: true, new: true }
+    );
 
     return {
       user,
@@ -64,7 +71,11 @@ export class AuthService {
 
   static loginGoogle = async (req: Request) => {
     const { code } = req.body;
-    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, 'postmessage');
+    const client = new OAuth2Client(
+      process.env.GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_SECRET,
+      'postmessage'
+    );
 
     try {
       const { tokens } = await client.getToken(code);
@@ -98,7 +109,11 @@ export class AuthService {
       const accessToken = jwtUtils.createAccessToken(user.id);
       const refreshToken = jwtUtils.createRefreshToken();
 
-      await Token.findOneAndUpdate({ user_id: user.id }, { refresh_token: refreshToken }, { upsert: true, new: true });
+      await Token.findOneAndUpdate(
+        { user_id: user.id },
+        { refresh_token: refreshToken },
+        { upsert: true, new: true }
+      );
 
       return {
         accessToken,

@@ -13,7 +13,12 @@ categoryRouter.get('/', authMiddleware, CategoryController.getAllCategory);
 categoryRouter.get('/:id', objectIdValidation, authMiddleware, CategoryController.getOneCategory);
 
 // create a new category
-categoryRouter.post('/', authMiddleware, categoryValidation.createValidation, CategoryController.createNewCategory);
+categoryRouter.post(
+  '/',
+  authMiddleware,
+  categoryValidation.createValidation,
+  CategoryController.createNewCategory
+);
 
 // update a category by id
 categoryRouter.patch(
@@ -25,6 +30,11 @@ categoryRouter.patch(
 );
 
 // delete a category by id
-categoryRouter.delete('/:id', authMiddleware, objectIdValidation, CategoryController.deleteCategoryById);
+categoryRouter.delete(
+  '/:id',
+  authMiddleware,
+  objectIdValidation,
+  CategoryController.deleteCategoryById
+);
 
 export default categoryRouter;
