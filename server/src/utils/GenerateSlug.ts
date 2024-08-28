@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
-import { slugify } from './slugify';
 import { v4 as uuidv4 } from 'uuid';
+import { slugify } from './Slugify';
 
 export const generateSlug = async <T extends { slug: string }>(
   Model: Model<T>,
