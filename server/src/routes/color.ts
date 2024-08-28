@@ -7,10 +7,10 @@ import { objectIdValidation } from '~/validations/objectId.validation';
 const colorRouter = express.Router();
 
 // get all color
-colorRouter.get('/', authMiddleware, ColorController.getAllColor);
+colorRouter.get('/', ColorController.getAllColor);
 
 // get one color by id
-colorRouter.get('/:id', objectIdValidation, authMiddleware, ColorController.getOneColor);
+colorRouter.get('/:id', objectIdValidation, ColorController.getOneColor);
 
 // create a new color
 colorRouter.post(

@@ -7,10 +7,10 @@ import { SizeController } from '~/controllers/size.controller';
 const sizeRouter = express.Router();
 
 // get all size
-sizeRouter.get('/', authMiddleware, SizeController.getAllSize);
+sizeRouter.get('/', SizeController.getAllSize);
 
 // get one size by id
-sizeRouter.get('/:id', objectIdValidation, authMiddleware, SizeController.getOneSize);
+sizeRouter.get('/:id', objectIdValidation, SizeController.getOneSize);
 
 // create a new size
 sizeRouter.post('/', authMiddleware, sizeValidation.createValidation, SizeController.createNewSize);

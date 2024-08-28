@@ -7,10 +7,10 @@ import { StyleController } from '~/controllers/style.controller';
 const styleRouter = express.Router();
 
 // get all style
-styleRouter.get('/', authMiddleware, StyleController.getAllStyle);
+styleRouter.get('/', StyleController.getAllStyle);
 
 // get one style by id
-styleRouter.get('/:id', objectIdValidation, authMiddleware, StyleController.getOneStyle);
+styleRouter.get('/:id', objectIdValidation, StyleController.getOneStyle);
 
 // create a new style
 styleRouter.post(

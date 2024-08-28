@@ -7,10 +7,10 @@ import { objectIdValidation } from '~/validations/objectId.validation';
 const categoryRouter = express.Router();
 
 // get all category
-categoryRouter.get('/', authMiddleware, CategoryController.getAllCategory);
+categoryRouter.get('/', CategoryController.getAllCategory);
 
 // get one category by id
-categoryRouter.get('/:id', objectIdValidation, authMiddleware, CategoryController.getOneCategory);
+categoryRouter.get('/:id', objectIdValidation, CategoryController.getOneCategory);
 
 // create a new category
 categoryRouter.post(

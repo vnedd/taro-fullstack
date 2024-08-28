@@ -7,10 +7,10 @@ import { ProductController } from '~/controllers/product.controller';
 const productRouter = express.Router();
 
 // get all product
-productRouter.get('/', authMiddleware, ProductController.getAllProduct);
+productRouter.get('/', ProductController.getAllProduct);
 
 // get one product by id
-productRouter.get('/:id', objectIdValidation, authMiddleware, ProductController.getOneProduct);
+productRouter.get('/:id', objectIdValidation, ProductController.getOneProduct);
 
 // create a new product
 productRouter.post(
