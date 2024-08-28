@@ -1,8 +1,7 @@
-import { API_URL } from "@/constants/api";
 import axios from "axios";
 
 const apiConfig = () => {
-  axios.defaults.baseURL = API_URL;
+  axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 
   axios.interceptors.request.use(
     (config) => {
