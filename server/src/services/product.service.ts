@@ -10,8 +10,24 @@ import { Transformer } from '~/utils/transformer';
 
 export default class ProductService {
   static getAllProducts = async (req: Request) => {
-    const options = getPaginationOptions(req);
+    const { get_all } = req.query;
+
     const filter = getFilterOptions(req, ['name']);
+
+    let products;
+
+    if (get_all === 'true') {
+      products = await Product.find(filter);
+      const transformedColors = products.map((product) => {
+        return Transformer.transformObjectTypeSnakeToCamel(product.toObject());
+      });
+      return {
+        metaData: Transformer.removeDeletedField(transformedColors),
+        others: {}
+      };
+    }
+
+    const options = getPaginationOptions(req);
 
     options.populate = [
       { path: 'category' },
@@ -21,41 +37,69 @@ export default class ProductService {
       { path: 'variants' }
     ];
 
-    const paginatedProducts = await Product.paginate(filter, options);
+    products = await Product.paginate(filter, options);
 
-    const { docs, ...otherFields } = paginatedProducts;
+    const { docs, ...otherFields } = products;
 
-    const transformedProducts = docs.map((product) => {
+    const transformedColors = docs.map((product) => {
       return Transformer.transformObjectTypeSnakeToCamel(product.toObject());
     });
-    const others = {
-      ...otherFields
-    };
+
     return {
-      metaData: Transformer.removeDeletedField(transformedProducts),
-      others
+      metaData: Transformer.removeDeletedField(transformedColors),
+      others: get_all === 'true' ? {} : otherFields
     };
   };
 
   static getProductLites = async (req: Request) => {
-    const options = getPaginationOptions(req);
+    const { get_all } = req.query;
+
     const filter = getFilterOptions(req, ['name']);
 
+    let products;
+
+    if (get_all === 'true') {
+      products = await Product.find(filter);
+      const transformedColors = products.map((product) => {
+        return Transformer.transformObjectTypeSnakeToCamel(product.toObject());
+      });
+      return {
+        metaData: Transformer.removeDeletedField(transformedColors),
+        others: {}
+      };
+    }
+
+    const options = getPaginationOptions(req);
+
     options.populate = [{ path: 'category' }];
+    products = await Product.paginate(filter, options);
 
-    const paginatedProducts = await Product.paginate(filter, options);
-
-    const { docs, ...otherFields } = paginatedProducts;
+    const { docs, ...otherFields } = products;
 
     const transformedProducts = docs.map((product) => {
       return Transformer.transformObjectTypeSnakeToCamel(product.toObject());
     });
-    const others = {
-      ...otherFields
-    };
+
     return {
       metaData: Transformer.removeDeletedField(transformedProducts),
-      others
+      others: get_all === 'true' ? {} : otherFields
+    };
+  };
+
+  static getproductFeatured = async (req: Request) => {
+    const products = await Product.find({
+      isFeatured: true
+    })
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .populate([{ path: 'category' }]);
+
+    const transformedProducts = products.map((product) => {
+      return Transformer.transformObjectTypeSnakeToCamel(product.toObject());
+    });
+    return {
+      metaData: Transformer.removeDeletedField(transformedProducts),
+      others: {}
     };
   };
 
