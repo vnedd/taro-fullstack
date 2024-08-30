@@ -22,6 +22,15 @@ const getProductLites = async (
   return data;
 };
 
+const getProductFeatured = async (): Promise<
+  IPaginationResponse<IProductLite>
+> => {
+  const { data } = await axios.get<IPaginationResponse<IProductLite>>(
+    `${API_PREFIX}/featured`
+  );
+  return data;
+};
+
 const getProduct = async (id: string): Promise<IProduct | null> => {
   try {
     const { data } = await axios.get<{ metaData: IProduct }>(
@@ -57,6 +66,7 @@ export {
   getProducts,
   getProduct,
   getProductLites,
+  getProductFeatured,
   createProduct,
   updateProduct,
   deleteProduct,

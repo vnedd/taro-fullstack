@@ -1,3 +1,4 @@
+import Footer from "@/components/footer";
 import Navbar from "@/components/header/navbar";
 import { useAuthStore } from "@/store/auth";
 import { useEffect } from "react";
@@ -13,6 +14,7 @@ const DefaultLayout = () => {
     <div>
       <Navbar />
       <Outlet />
+      <Footer />
     </div>
   );
 };

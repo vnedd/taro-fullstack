@@ -8,6 +8,7 @@ import {
   createProduct,
   deleteProduct,
   getProduct,
+  getProductFeatured,
   getProductLites,
   getProducts,
   updateProduct,
@@ -39,6 +40,19 @@ export const useProductLites = (
   return useQuery<IPaginationResponse<IProductLite>, Error>({
     queryKey: ["products", JSON.stringify(params)],
     queryFn: () => getProductLites(params),
+    ...options,
+  });
+};
+
+export const useProductFeatured = (
+  options?: Omit<
+    UseQueryOptions<IPaginationResponse<IProductLite>, Error>,
+    "queryKey" | "queryFn"
+  >
+) => {
+  return useQuery<IPaginationResponse<IProductLite>, Error>({
+    queryKey: ["products"],
+    queryFn: () => getProductFeatured(),
     ...options,
   });
 };
