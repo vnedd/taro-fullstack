@@ -8,6 +8,7 @@ const productRouter = express.Router();
 
 // get all product
 productRouter.get('/', ProductController.getAllProduct);
+productRouter.get('/lite', ProductController.getProductLites);
 
 // get one product by id
 productRouter.get('/:id', objectIdValidation, ProductController.getOneProduct);

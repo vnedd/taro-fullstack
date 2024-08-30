@@ -37,6 +37,28 @@ export default class ProductService {
     };
   };
 
+  static getProductLites = async (req: Request) => {
+    const options = getPaginationOptions(req);
+    const filter = getFilterOptions(req, ['name']);
+
+    options.populate = [{ path: 'category' }];
+
+    const paginatedProducts = await Product.paginate(filter, options);
+
+    const { docs, ...otherFields } = paginatedProducts;
+
+    const transformedProducts = docs.map((product) => {
+      return Transformer.transformObjectTypeSnakeToCamel(product.toObject());
+    });
+    const others = {
+      ...otherFields
+    };
+    return {
+      metaData: Transformer.removeDeletedField(transformedProducts),
+      others
+    };
+  };
+
   static getOneProduct = async (req: Request) => {
     await checkRecordByField(Product, '_id', req.params.id, true);
     const data = await Product.findById(req.params.id).populate([

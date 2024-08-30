@@ -23,6 +23,16 @@ export class ProductController {
     }
   };
 
+  static getProductLites = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { metaData, others } = await ProductService.getProductLites(req);
+
+      SuccessResponse(res, StatusCodes.OK, 'Get all product successfully', metaData, others);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   static getOneProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const product = await ProductService.getOneProduct(req);
