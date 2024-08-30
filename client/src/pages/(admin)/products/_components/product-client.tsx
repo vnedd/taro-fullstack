@@ -3,9 +3,9 @@ import { DataTable } from "@/components/ui/data-table";
 import { ProductColumn, columns } from "./column";
 import { useDeleteProduct } from "@/hooks/use-product";
 import { IPaginationResponse } from "@/types/response";
-import { IProduct } from "@/types/product";
+import { IProductLite } from "@/types/product";
 interface ProductsClientProps {
-  data: IPaginationResponse<IProduct>;
+  data: IPaginationResponse<IProductLite>;
 }
 
 const ProductsClient: React.FC<ProductsClientProps> = ({ data }) => {
@@ -18,10 +18,13 @@ const ProductsClient: React.FC<ProductsClientProps> = ({ data }) => {
   };
 
   const formattedProducts: ProductColumn[] | undefined = data.metaData.map(
-    (item: IProduct) => {
+    (item: IProductLite) => {
       return {
         id: item.id,
         name: item.name,
+        color: item.productColors.length,
+        size: item.productSizes.length,
+        variants: item.variants.length,
         category: item.category.name,
         isFeatured: item.isFeatured,
         createdAt: format(item.createdAt, "MMMM do, yyyy"),

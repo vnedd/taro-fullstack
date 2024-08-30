@@ -8,11 +8,12 @@ import {
   createProduct,
   deleteProduct,
   getProduct,
+  getProductLites,
   getProducts,
   updateProduct,
 } from "@/services/product.services";
 import { IPaginationResponse, TUrlParams } from "@/types/response";
-import { IProduct } from "@/types/product";
+import { IProduct, IProductLite } from "@/types/product";
 
 export const useProducts = (
   params: TUrlParams = {},
@@ -24,6 +25,20 @@ export const useProducts = (
   return useQuery<IPaginationResponse<IProduct>, Error>({
     queryKey: ["products", JSON.stringify(params)],
     queryFn: () => getProducts(params),
+    ...options,
+  });
+};
+
+export const useProductLites = (
+  params: TUrlParams = {},
+  options?: Omit<
+    UseQueryOptions<IPaginationResponse<IProductLite>, Error>,
+    "queryKey" | "queryFn"
+  >
+) => {
+  return useQuery<IPaginationResponse<IProductLite>, Error>({
+    queryKey: ["products", JSON.stringify(params)],
+    queryFn: () => getProductLites(params),
     ...options,
   });
 };

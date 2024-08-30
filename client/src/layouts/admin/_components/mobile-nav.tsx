@@ -85,7 +85,7 @@ const MobileNav = () => {
       <SheetContent side={"left"}>
         <SheetHeader>
           <SheetTitle>
-            <Logo type="full" />
+            <Logo type="full" theme="light" />
           </SheetTitle>
           <SheetDescription className="text-left">
             Make changes to your store here. Click save when you are done.

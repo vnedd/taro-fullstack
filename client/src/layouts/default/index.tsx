@@ -1,3 +1,4 @@
+import Navbar from "@/components/header/navbar";
 import { useAuthStore } from "@/store/auth";
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
@@ -10,6 +11,7 @@ const DefaultLayout = () => {
 
   return (
     <div>
+      <Navbar />
       <Outlet />
     </div>
   );

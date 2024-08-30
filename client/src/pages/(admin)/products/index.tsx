@@ -15,7 +15,7 @@ import TableSkeleton from "@/components/skeletons/table-skeleton";
 import { useDebounce } from "use-debounce";
 import ErrorBlock from "@/components/error-block";
 import { Input } from "@/components/ui/input";
-import { useProducts } from "@/hooks/use-product";
+import { useProductLites } from "@/hooks/use-product";
 import { toast } from "sonner";
 const ProductsPage = () => {
   const [params, setParams] = useState({
@@ -26,7 +26,7 @@ const ProductsPage = () => {
 
   const [nameDebouce] = useDebounce(params.name, 500);
 
-  const { data, isLoading, error, isRefetching } = useProducts({
+  const { data, isLoading, error, isRefetching } = useProductLites({
     ...params,
     name: nameDebouce,
   });

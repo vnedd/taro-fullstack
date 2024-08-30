@@ -16,6 +16,9 @@ import { dataPlaceholderImage } from "@/constants/images";
 export type ProductColumn = {
   id: string;
   name: string;
+  color: number;
+  size: number;
+  variants: number;
   category: string | undefined;
   isFeatured: boolean;
   discount: number | undefined;
@@ -106,6 +109,27 @@ export const columns: ColumnDef<ProductColumn>[] = [
           {row.original.category}
         </Badge>
       );
+    },
+  },
+  {
+    accessorKey: "Variants",
+    header: "Variants count",
+    cell: ({ row }) => {
+      return <p className="font-medium">{row.original.variants}</p>;
+    },
+  },
+  {
+    accessorKey: "color",
+    header: "Color count",
+    cell: ({ row }) => {
+      return <p className="font-medium">{row.original.color}</p>;
+    },
+  },
+  {
+    accessorKey: "size",
+    header: "Size count",
+    cell: ({ row }) => {
+      return <p className="font-medium">{row.original.size}</p>;
     },
   },
   {

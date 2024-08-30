@@ -19,6 +19,22 @@ export type IProduct = {
   updatedAt: Date;
 };
 
+export type IProductLite = {
+  id: string;
+  name: string;
+  description: string;
+  discount?: number;
+  isFeatured: boolean;
+  images: string[];
+  category: ICategory;
+  productColors: string[];
+  productSizes: string[];
+  productStyles: string[];
+  variants: string[];
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export interface IVariant {
   id?: string;
   style: string;

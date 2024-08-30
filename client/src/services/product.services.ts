@@ -1,6 +1,6 @@
 import { buildUrl } from "@/helpers/api.helpers";
 import { TProductSchema } from "@/schemas/product.schema";
-import { IProduct } from "@/types/product";
+import { IProduct, IProductLite } from "@/types/product";
 import { IPaginationResponse, TUrlParams } from "@/types/response";
 import axios from "axios";
 
@@ -11,6 +11,14 @@ const getProducts = async (
 ): Promise<IPaginationResponse<IProduct>> => {
   const url = buildUrl(API_PREFIX, params);
   const { data } = await axios.get<IPaginationResponse<IProduct>>(url);
+  return data;
+};
+
+const getProductLites = async (
+  params: TUrlParams = {}
+): Promise<IPaginationResponse<IProductLite>> => {
+  const url = buildUrl(`${API_PREFIX}/lite`, params);
+  const { data } = await axios.get<IPaginationResponse<IProductLite>>(url);
   return data;
 };
 
@@ -45,4 +53,11 @@ const deleteProduct = async (id: string): Promise<void> => {
   await axios.delete(`${API_PREFIX}/${id}`);
 };
 
-export { getProducts, getProduct, createProduct, updateProduct, deleteProduct };
+export {
+  getProducts,
+  getProduct,
+  getProductLites,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+};

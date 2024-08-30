@@ -38,12 +38,6 @@ const CopyPage = () => {
   const isLoading = queries.some((query) => query.isLoading);
   const isError = queries.some((query) => query.isError);
 
-  console.log("Product Query State:", {
-    isLoading: productQuery.isLoading,
-    isError: productQuery.isError,
-    data: productQuery.data,
-  });
-
   if (isLoading) {
     return <Loading />;
   }
