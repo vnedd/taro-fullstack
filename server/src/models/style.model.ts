@@ -7,12 +7,14 @@ const COLLECTION_NAME = 'Styles';
 interface IStyle extends Document {
   name: string;
   description?: string;
+  order: number;
 }
 
 const styleSchema = new Schema<IStyle>(
   {
     name: { type: String, required: true },
-    description: String
+    description: String,
+    order: { type: Number }
   },
   {
     timestamps: true,

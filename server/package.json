@@ -52,6 +52,7 @@
     "mongoose-paginate-v2": "^1.8.3",
     "morgan": "^1.10.0",
     "passport-google-oauth2": "^0.2.0",
+    "stripe": "^16.9.0",
     "uuid": "^10.0.0"
   }
 }

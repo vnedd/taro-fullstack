@@ -51,9 +51,16 @@ export default class ColorService {
     const { name, value } = req.body;
     await checkRecordByField(Color, 'name', name, false);
 
+    let lastOrder = 0;
+
+    const lastColor = await Color.findOne({}).sort({ order: -1 });
+
+    if (lastColor) lastOrder = lastColor.order + 1;
+
     const newColor = await Color.create({
       name,
-      value
+      value,
+      order: lastOrder
     });
     const data = Transformer.transformObjectTypeSnakeToCamel(newColor.toObject());
 

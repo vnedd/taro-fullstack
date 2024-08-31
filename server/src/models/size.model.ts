@@ -7,12 +7,14 @@ const COLLECTION_NAME = 'Sizes';
 interface ISize extends Document {
   name: string;
   value: string;
+  order: number;
 }
 
 const sizeSchema = new Schema<ISize>(
   {
     name: { type: String, required: true },
-    value: { type: String, required: true }
+    value: { type: String, required: true },
+    order: { type: Number }
   },
   {
     timestamps: true,

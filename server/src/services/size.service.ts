@@ -51,9 +51,16 @@ export default class SizeService {
     const { name, value } = req.body;
     await checkRecordByField(Size, 'name', name, false);
 
+    let lastOrder = 0;
+
+    const lastSize = await Size.findOne({}).sort({ order: -1 });
+
+    if (lastSize) lastOrder = lastSize.order + 1;
+
     const newSize = await Size.create({
       name,
-      value
+      value,
+      order: lastOrder
     });
     const data = Transformer.transformObjectTypeSnakeToCamel(newSize.toObject());
 

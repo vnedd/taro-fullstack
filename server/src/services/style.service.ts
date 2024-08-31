@@ -51,9 +51,16 @@ export default class StyleService {
     const { name, description } = req.body;
     await checkRecordByField(Style, 'name', name, false);
 
+    let lastOrder = 0;
+
+    const lastStyle = await Style.findOne({}).sort({ order: -1 });
+
+    if (lastStyle) lastOrder = lastStyle.order + 1;
+
     const newStyle = await Style.create({
       name,
-      description
+      description,
+      order: lastOrder
     });
     const data = Transformer.transformObjectTypeSnakeToCamel(newStyle.toObject());
 

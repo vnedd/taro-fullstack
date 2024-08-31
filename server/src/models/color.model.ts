@@ -7,12 +7,14 @@ const COLLECTION_NAME = 'Colors';
 interface IColor extends Document {
   name: string;
   value: string;
+  order: number;
 }
 
 const colorSchema = new Schema<IColor>(
   {
     name: { type: String, required: true },
-    value: { type: String, required: true }
+    value: { type: String, required: true },
+    order: { type: Number }
   },
   {
     timestamps: true,
