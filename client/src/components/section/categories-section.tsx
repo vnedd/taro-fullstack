@@ -20,7 +20,7 @@ const CategoriesSection = () => {
     );
 
   return (
-    <Container className="py-10 space-y-8">
+    <Container className="py-10 space-y-8 w-full">
       <Heading variant="large" title="Shop by Categories" />
       <div className="w-full">
         {isLoading ? (

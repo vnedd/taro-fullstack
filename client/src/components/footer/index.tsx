@@ -12,7 +12,7 @@ const Footer = () => {
         <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-8 ">
           <div className="flex flex-col md:items-start items-center">
             <Logo type="full" theme="light" />
-            <div className="flex flex-col md:items-start items-center space-y-1 text-sm">
+            <div className="flex flex-col md:items-start items-center</div> space-y-1 text-sm">
               <p>
                 Address:{" "}
                 <strong>
@@ -30,14 +30,28 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold md:text-start text-center">Help</h3>
             <div className="flex flex-col md:items-start items-center space-y-2 text-sm font-light mt-6">
-              <Link to="">Privacy Policy</Link>
-              <Link to="">Returns + Exchanges</Link>
-              <Link to="">Shipping</Link>
-              <Link to="">Terms & Conditions</Link>
-              <Link to="">FAQs</Link>
-              <Link to="">My Wishlist</Link>
-              <Link to=""></Link>
-              <Link to="">Compare</Link>
+              <Link to="" className="hover:underline">
+                Privacy Policy
+              </Link>
+              <Link to="" className="hover:underline">
+                Returns + Exchanges
+              </Link>
+              <Link to="" className="hover:underline">
+                Shipping
+              </Link>
+              <Link to="" className="hover:underline">
+                Terms & Conditions
+              </Link>
+              <Link to="" className="hover:underline">
+                FAQs
+              </Link>
+              <Link to="" className="hover:underline">
+                My Wishlist
+              </Link>
+              <Link to="" className="hover:underline"></Link>
+              <Link to="" className="hover:underline">
+                Compare
+              </Link>
             </div>
           </div>
           <div>
@@ -45,10 +59,18 @@ const Footer = () => {
               About us
             </h3>
             <div className="flex flex-col  md:items-start items-center space-y-2 text-sm font-light mt-6">
-              <Link to="">Our Story</Link>
-              <Link to="">Visit Our Store</Link>
-              <Link to="">Contact Us</Link>
-              <Link to="">Account</Link>
+              <Link to="" className="hover:underline">
+                Our Story
+              </Link>
+              <Link to="" className="hover:underline">
+                Visit Our Store
+              </Link>
+              <Link to="" className="hover:underline">
+                Contact Us
+              </Link>
+              <Link to="" className="hover:underline">
+                Account
+              </Link>
             </div>
           </div>
           <div>

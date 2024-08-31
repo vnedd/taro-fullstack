@@ -6,7 +6,7 @@ import ServiceSection from "@/components/section/service-section";
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col gap-y-10">
+    <div className="flex flex-col gap-y-16">
       <Banner />
       <CategoriesSection />
       <ServiceSection />

@@ -4,6 +4,7 @@ export enum ERole {
 }
 
 export interface IUser {
+  id: string;
   username: string;
   password?: string;
   google_id?: string;

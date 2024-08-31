@@ -11,10 +11,13 @@ import CopyPage from "@/pages/(admin)/products/copy";
 import UpdatePage from "@/pages/(admin)/products/update";
 import SizesPage from "@/pages/(admin)/sizes";
 import StylesPage from "@/pages/(admin)/styles";
-import FaqPage from "@/pages/(platform)/faqs";
 
+import CartPage from "@/pages/(platform)/cart";
+import CheckoutPage from "@/pages/(platform)/checkout";
+import FaqPage from "@/pages/(platform)/faqs";
 import HomePage from "@/pages/(platform)/home";
 import LoginPage from "@/pages/(platform)/login";
+import ProductDetailPage from "@/pages/(platform)/product-detail";
 import RegisterPage from "@/pages/(platform)/register";
 import ShopPage from "@/pages/(platform)/shop";
 
@@ -36,6 +39,18 @@ export const routerConfig = [
       {
         path: "faq",
         element: <FaqPage />,
+      },
+      {
+        path: "cart",
+        element: <CartPage />,
+      },
+      {
+        path: "checkout",
+        element: <CheckoutPage />,
+      },
+      {
+        path: "product/:id",
+        element: <ProductDetailPage />,
       },
     ],
   },

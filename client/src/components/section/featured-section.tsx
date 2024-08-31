@@ -15,8 +15,6 @@ const FeaturedSection = () => {
       </Container>
     );
 
-  console.log(products);
-
   return (
     <Container className="w-full">
       <Heading variant="large" title="Featured" />
@@ -25,7 +23,7 @@ const FeaturedSection = () => {
       ) : products?.metaData ? (
         <ProductList
           data={products.metaData}
-          className="lg:grid-cols-4 md:grid-cols-3 grid-cols-2 mt-6"
+          className="lg:grid-cols-5 md:grid-cols-4 grid-cols-2 mt-6"
         />
       ) : null}
     </Container>
