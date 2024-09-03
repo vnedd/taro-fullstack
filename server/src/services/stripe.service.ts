@@ -24,6 +24,8 @@ export default class StripeService {
     const session = event.data.object as Stripe.Checkout.Session;
     const orderId = session?.metadata?.orderId;
 
+    console.log(orderId);
+
     if (event.type === 'checkout.session.completed') {
       if (!orderId) {
         throw new ApiError(StatusCodes.BAD_REQUEST, 'Webhook missing order ID');
