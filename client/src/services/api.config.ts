@@ -15,4 +15,12 @@ const apiConfig = () => {
   );
 };
 
-export { apiConfig };
+const trackingIntance = axios.create({
+  baseURL: "https://backtrack.p.rapidapi.com/v1/track/",
+  headers: {
+    "X-RapidAPI-Key": "bc020e7cf8msh54cd4727474d983p1a8690jsna5872a561c69",
+    "X-RapidAPI-Host": "backtrack.p.rapidapi.com",
+  },
+});
+
+export { apiConfig, trackingIntance };

@@ -9,6 +9,7 @@ import { apiConfig } from "./services/api.config";
 import ToastProvider from "./providers/toast-provider";
 import QueryProvider from "./providers/query-provider";
 import { Toaster } from "@/components/ui/sonner";
+import ConfettiProvider from "./providers/confetti-provider";
 
 apiConfig();
 createRoot(document.getElementById("root")!).render(
@@ -16,6 +17,7 @@ createRoot(document.getElementById("root")!).render(
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <QueryProvider>
         <BrowserRouter>
+          <ConfettiProvider />
           <Toaster />
           <ToastProvider />
           <App />

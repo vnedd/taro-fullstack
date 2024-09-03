@@ -13,6 +13,7 @@ export enum EPaymentStates {
 }
 
 export interface IOrder {
+  id: string;
   total: number;
   isPaid: boolean;
   orderState: string;
@@ -21,11 +22,13 @@ export interface IOrder {
   address: string;
   phoneNumber: string;
   userId: string;
-  trackingCode: string;
+  tracking?: ITracking;
   orderItems: IOrderItem[];
+  createdAt: Date;
 }
 
 export interface IOrderItem {
+  id: string;
   pricePerUnit: number;
   quantity: number;
   styleName: string;
@@ -37,6 +40,12 @@ export interface IOrderItem {
   variantId: string;
   orderId: string;
 }
+
+export interface ITracking {
+  code: string;
+  orderId: string;
+}
+
 export interface IShippingInfo {
   address: string;
   phone: string;

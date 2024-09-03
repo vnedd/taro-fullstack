@@ -56,7 +56,7 @@ export const useUpdateSize = () => {
     mutationFn: updateSize,
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["sizes"] });
-      queryClient.invalidateQueries({ queryKey: ["size", variables.id] });
+      queryClient.invalidateQueries({ queryKey: ["size", variables] });
     },
     onError: (error: any) => {
       const errorMessage = error?.response.data.message || "Update size failed";

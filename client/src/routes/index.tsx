@@ -14,6 +14,8 @@ import StylesPage from "@/pages/(admin)/styles";
 
 import CartPage from "@/pages/(platform)/cart";
 import CheckoutPage from "@/pages/(platform)/checkout";
+import CheckoutCanceledPage from "@/pages/(platform)/checkout/canceled";
+import CheckoutSuccessPage from "@/pages/(platform)/checkout/success";
 import FaqPage from "@/pages/(platform)/faqs";
 import HomePage from "@/pages/(platform)/home";
 import LoginPage from "@/pages/(platform)/login";
@@ -47,6 +49,14 @@ export const routerConfig = [
       {
         path: "checkout",
         element: <CheckoutPage />,
+      },
+      {
+        path: "checkout/success/:orderId",
+        element: <CheckoutSuccessPage />,
+      },
+      {
+        path: "checkout/canceled/:orderId",
+        element: <CheckoutCanceledPage />,
       },
       {
         path: "product/:id",

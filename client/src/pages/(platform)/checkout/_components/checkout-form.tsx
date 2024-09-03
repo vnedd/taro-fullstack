@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -25,30 +24,34 @@ import { usStatesData } from "@/constants/us-states";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import ConfirmDialog from "./confirm-dialog";
-import useStore from "@/hooks/use-store";
 import { useCart } from "@/hooks/use-cart";
 import toast from "react-hot-toast";
 import { Loader } from "lucide-react";
-import { useSearchParams } from "react-router-dom";
 import { checkoutSchema, TCheckoutSchema } from "@/schemas/checkout.schema";
 import { useAuthStore } from "@/store/auth";
+import { Dispatch, SetStateAction, useState } from "react";
+import { useUpdateShippingInfo } from "@/hooks/use-orders";
 
 interface CheckoutFormProps {
   formType: "checkout" | "edit";
   orderId?: string;
+  onSetShowModal?: Dispatch<SetStateAction<boolean>>;
 }
 
-const CheckoutForm = ({ formType, orderId }: CheckoutFormProps) => {
-  const [searchParams] = useSearchParams();
+const CheckoutForm = ({
+  formType,
+  orderId,
+  onSetShowModal,
+}: CheckoutFormProps) => {
   const [open, setOpen] = useState(false);
   const [showForm, setShowForm] = useState(true);
   const [loading, setLoading] = useState(false);
   const [originalAddress, setOrifinalAddress] = useState("");
   const [addressVerification, setAddressVerification] = useState("");
-  const cart = useStore(useCart, (s) => s);
-  const { profile } = useAuthStore();
 
-  console.log(orderId);
+  const updateShipingInforMutation = useUpdateShippingInfo();
+  const cart = useCart();
+  const { profile } = useAuthStore();
 
   const form = useForm<TCheckoutSchema>({
     resolver: zodResolver(checkoutSchema),
@@ -62,18 +65,6 @@ const CheckoutForm = ({ formType, orderId }: CheckoutFormProps) => {
       phone: "",
     },
   });
-
-  useEffect(() => {
-    const fetch = async () => {
-      if (searchParams.get("canceled") && searchParams.get("orderId")) {
-        const orderId = searchParams.get("orderId");
-        console.log(orderId);
-        // await deleteOrder(orderId);
-        toast.error("Payment Failed");
-      }
-    };
-    fetch();
-  }, [searchParams]);
 
   const { watch } = form;
 
@@ -147,17 +138,21 @@ const CheckoutForm = ({ formType, orderId }: CheckoutFormProps) => {
     } else {
       try {
         setLoading(true);
-        // await updateShippingInformation({
-        //   address: addressVerification,
-        //   orderId,
-        //   customerName: watch("customer_name"),
-        //   phone: watch("phone"),
-        // });
+        await updateShipingInforMutation.mutateAsync({
+          orderId: orderId!,
+          shippingInfo: {
+            address: addressVerification,
+            customerName: watch("customer_name"),
+            phone: watch("phone"),
+          },
+        });
+
         toast.success("Your order shipping information has been updated");
       } catch (error) {
         toast.error("Something went wrong");
       } finally {
-        setLoading(false);
+        if (onSetShowModal) onSetShowModal(false);
+        setOpen(false);
       }
     }
   };
