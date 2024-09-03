@@ -7,7 +7,8 @@ interface SuccessPageProps {
 }
 
 const SuccessPage = ({ params }: SuccessPageProps) => {
-  return <Container className="lg:pt-28 pt-20">he;loo</Container>;
+  console.log(params);
+  return <Container className="lg:pt-28 pt-20">helloo</Container>;
 };
 
 export default SuccessPage;

@@ -29,7 +29,7 @@ import useStore from "@/hooks/use-store";
 import { useCart } from "@/hooks/use-cart";
 import toast from "react-hot-toast";
 import { Loader } from "lucide-react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { checkoutSchema, TCheckoutSchema } from "@/schemas/checkout.schema";
 import { useAuthStore } from "@/store/auth";
 
@@ -45,9 +45,10 @@ const CheckoutForm = ({ formType, orderId }: CheckoutFormProps) => {
   const [loading, setLoading] = useState(false);
   const [originalAddress, setOrifinalAddress] = useState("");
   const [addressVerification, setAddressVerification] = useState("");
-  const router = useNavigate();
   const cart = useStore(useCart, (s) => s);
   const { profile } = useAuthStore();
+
+  console.log(orderId);
 
   const form = useForm<TCheckoutSchema>({
     resolver: zodResolver(checkoutSchema),
@@ -66,6 +67,7 @@ const CheckoutForm = ({ formType, orderId }: CheckoutFormProps) => {
     const fetch = async () => {
       if (searchParams.get("canceled") && searchParams.get("orderId")) {
         const orderId = searchParams.get("orderId");
+        console.log(orderId);
         // await deleteOrder(orderId);
         toast.error("Payment Failed");
       }

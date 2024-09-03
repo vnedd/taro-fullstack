@@ -1,7 +1,7 @@
 export interface IStyle {
   id: string;
   name: string;
-  order: number;
+  order?: number;
   description?: string;
   createdAt: Date;
   updatedAt: Date;

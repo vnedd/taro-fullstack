@@ -6,9 +6,9 @@ interface CardSkeletonProps {
 
 const CardSkeleton = ({ items = 4 }: CardSkeletonProps) => {
   return (
-    <div className="grid grid-cols-4 gap-6 w-full">
+    <div className="grid lg:grid-cols-4 grid-cols-2 gap-6 w-full">
       {Array.from({ length: items }).map((_, index) => (
-        <div key={index} className="col-span-1 h-96">
+        <div key={index} className="col-span-1 lg:h-80 h-72">
           <Skeleton className="w-full h-full" />
         </div>
       ))}
