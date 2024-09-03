@@ -15,7 +15,7 @@ interface IOrder extends Document {
   address: string;
   phoneNumber: string;
   userId: string;
-  trackingCode: string;
+  tracking?: string;
   orderItems: IOrderItem[];
 }
 
@@ -37,7 +37,10 @@ const orderSchema = new Schema<IOrder>(
     address: { type: String, default: '' },
     phoneNumber: { type: String, default: '' },
     userId: { type: String, required: true },
-    trackingCode: { type: String, default: '' },
+    tracking: {
+      type: Schema.Types.ObjectId,
+      ref: 'Tracking'
+    },
     orderItems: [
       {
         type: Schema.Types.ObjectId,

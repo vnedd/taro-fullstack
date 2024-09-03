@@ -30,7 +30,8 @@ export default class CheckoutService {
           price_data: {
             currency: 'USD',
             product_data: {
-              name: [item.productName, item.styleName, item.colorName, item.sizeName].join(', ')
+              name: [item.productName, item.styleName, item.colorName, item.sizeName].join(', '),
+              images: [item.productImage]
             },
             unit_amount: item.pricePerUnit * 100
           }
@@ -74,8 +75,8 @@ export default class CheckoutService {
       const session = await stripe.checkout.sessions.create({
         line_items,
         mode: 'payment',
-        success_url: `${process.env.FRONTEND_URL}/checkout/${order._id}?success=1`,
-        cancel_url: `${process.env.FRONTEND_URL}/checkout?canceled=1&orderId=${order._id}`,
+        success_url: `${process.env.FRONTEND_URL}/checkout/success/${order._id}`,
+        cancel_url: `${process.env.FRONTEND_URL}/checkout/canceled/${order._id}`,
         metadata: {
           orderId: order._id.toString(),
           userId

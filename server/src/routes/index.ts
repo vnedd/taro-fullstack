@@ -6,6 +6,7 @@ import colorRouter from './color';
 import sizeRouter from './size';
 import productRouter from './product';
 import checkoutRouter from './checkout';
+import orderRouter from './order';
 
 const router = Router();
 
@@ -15,6 +16,7 @@ router.use('/styles', styleRouter);
 router.use('/sizes', sizeRouter);
 router.use('/colors', colorRouter);
 router.use('/products', productRouter);
-router.use('/', checkoutRouter);
+router.use('/checkout', checkoutRouter);
+router.use('/orders', orderRouter);
 
 export default router;

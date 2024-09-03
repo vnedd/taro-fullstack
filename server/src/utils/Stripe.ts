@@ -8,6 +8,6 @@ const stripe = new Stripe(
   }
 );
 
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+const endpointSecret = 'whsec_6a543ec33f60ea23f93b34261e3ee94b77f7c01d95a1608af41b711d9023d38d';
 
 export { stripe, endpointSecret };
