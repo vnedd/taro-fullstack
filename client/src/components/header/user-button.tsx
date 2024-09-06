@@ -28,7 +28,7 @@ const USER_MENU = [
   {
     label: "My orders",
     icon: SlHandbag,
-    href: "/account/orders?state=All",
+    href: "/account/orders",
   },
   {
     label: "Settings",

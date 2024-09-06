@@ -56,7 +56,7 @@ const congratulation = ({ date }: Props) => {
         <p className="lg:top-[14px] top-[11px] h-[2px] left-8 right-6 md:left-14 md:right-14 bg-primary dark:bg-primary absolute"></p>
       </div>
       <div className="flex flex-col items-center space-y-3">
-        <Link to="/account/orders?state=All">
+        <Link to="/account/orders">
           <Button className="rounded-full" variant={"default"}>
             View your order
           </Button>

@@ -5,7 +5,7 @@ import {
   UseQueryOptions,
 } from "@tanstack/react-query";
 
-import { IPaginationResponse, TUrlParams } from "@/types/response";
+import { IPaginationResponse, TOrderUrlParams } from "@/types/response";
 import { IOrder } from "@/types/order";
 import {
   canceledOrder,
@@ -18,7 +18,7 @@ import {
 } from "@/services/order.service";
 
 export const useOrders = (
-  params: TUrlParams = {},
+  params: TOrderUrlParams = {},
   options?: Omit<
     UseQueryOptions<IPaginationResponse<IOrder>, Error>,
     "queryKey" | "queryFn"

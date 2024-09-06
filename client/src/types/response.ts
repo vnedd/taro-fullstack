@@ -1,3 +1,5 @@
+import { EOrderStates, EPaymentStates } from "./order";
+
 export interface IApiResponse<T> {
   message: string;
   statusCode: number;
@@ -20,4 +22,14 @@ export type TUrlParams = {
   name?: string;
   get_all?: boolean;
   categoryId?: string;
+};
+
+export type TOrderUrlParams = {
+  _page?: number;
+  _limit?: number;
+  get_all?: boolean;
+  paymentState?: EPaymentStates;
+  orderState?: EOrderStates;
+  start_date?: Date;
+  end_date?: Date;
 };

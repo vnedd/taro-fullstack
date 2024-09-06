@@ -1,12 +1,12 @@
 import axios from "axios";
 import { EOrderStates, IOrder, IShippingInfo } from "@/types/order";
 import { buildUrl } from "@/helpers/api.helpers";
-import { IPaginationResponse, TUrlParams } from "@/types/response";
+import { IPaginationResponse, TOrderUrlParams } from "@/types/response";
 
 const API_PREFIX = "/orders";
 
 const getAllOrder = async (
-  params: TUrlParams = {}
+  params: TOrderUrlParams = {}
 ): Promise<IPaginationResponse<IOrder>> => {
   const url = buildUrl(API_PREFIX, params);
   const response = await axios.get<IPaginationResponse<IOrder>>(url);

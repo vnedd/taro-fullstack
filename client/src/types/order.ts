@@ -44,6 +44,8 @@ export interface IOrderItem {
 export interface ITracking {
   code: string;
   orderId: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface IShippingInfo {

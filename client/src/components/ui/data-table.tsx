@@ -20,7 +20,7 @@ import { DataTableActions } from "./data-table-action";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  onDelete: (selectedRows: TData[]) => void;
+  onDelete?: (selectedRows: TData[]) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -92,9 +92,11 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-between space-x-2 py-4">
-        <DataTableActions table={table} onDelete={onDelete} />
-      </div>
+      {onDelete && (
+        <div className="flex items-center justify-between space-x-2 py-4">
+          <DataTableActions table={table} onDelete={onDelete} />
+        </div>
+      )}
     </>
   );
 }

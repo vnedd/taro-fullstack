@@ -55,7 +55,7 @@ const SidebarMenu = () => {
       isActive: pathname.startsWith("/dashboard/products"),
     },
     {
-      href: "/dashboard/orders?state=All",
+      href: "/dashboard/orders",
       label: "Orders",
       icon: <IoBagHandleOutline className="w-5 h-5" />,
       isActive: pathname.startsWith("/dashboard/orders"),

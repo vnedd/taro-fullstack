@@ -5,6 +5,8 @@ import DefaultLayout from "@/layouts/default";
 import CategoriesPage from "@/pages/(admin)/categories";
 import ColorsPage from "@/pages/(admin)/colors";
 import DashboardPage from "@/pages/(admin)/dashboard";
+import OrdersPage from "@/pages/(admin)/orders";
+import OrderDetailsPage from "@/pages/(admin)/orders/order-details";
 import ProductsPage from "@/pages/(admin)/products";
 import AddNewPage from "@/pages/(admin)/products/add";
 import CopyPage from "@/pages/(admin)/products/copy";
@@ -102,6 +104,11 @@ export const routerConfig = [
         path: "colors",
         element: <ColorsPage />,
       },
+      {
+        path: "orders",
+        element: <OrdersPage />,
+      },
+      { path: "orders/:orderId", element: <OrderDetailsPage /> },
       {
         path: "products",
         children: [
