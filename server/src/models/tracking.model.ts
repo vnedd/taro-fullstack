@@ -5,13 +5,13 @@ const DOCUMENT_NAME_TRACKING = 'Tracking';
 const COLLECTION_NAME_TRACKING = 'Trackings';
 
 interface ITracking extends Document {
-  trackingCode: string;
+  code: string;
   orderId: mongoose.Types.ObjectId;
 }
 
 const trackingSchema = new Schema<ITracking>(
   {
-    trackingCode: { type: String, unique: true, required: true },
+    code: { type: String, unique: true, required: true },
     orderId: { type: Schema.Types.ObjectId, ref: 'Order', unique: true, required: true }
   },
   {

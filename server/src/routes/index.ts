@@ -7,6 +7,7 @@ import sizeRouter from './size';
 import productRouter from './product';
 import checkoutRouter from './checkout';
 import orderRouter from './order';
+import trackingRouter from './tracking';
 
 const router = Router();
 
@@ -18,5 +19,6 @@ router.use('/colors', colorRouter);
 router.use('/products', productRouter);
 router.use('/checkout', checkoutRouter);
 router.use('/orders', orderRouter);
+router.use('/trackings', trackingRouter);
 
 export default router;

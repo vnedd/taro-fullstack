@@ -56,4 +56,33 @@ const getFilterOptions = (req: Request, filterFields: string[] = []): Record<str
   return filter;
 };
 
-export { getPaginationOptions, getFilterOptions };
+const getOrderFilterOptions = (req: Request): Record<string, any> => {
+  const filter: Record<string, any> = {};
+
+  if (req.query.paymentState) {
+    filter.paymentState = req.query.paymentState;
+  }
+
+  if (req.query.orderState) {
+    filter.orderState = req.query.orderState;
+  }
+
+  if (req.query.start_date && req.query.end_date) {
+    filter.createdAt = {
+      $gte: new Date(req.query.start_date as string),
+      $lte: new Date(req.query.end_date as string)
+    };
+  }
+
+  for (const key in req.query) {
+    if (req.query[key] === 'null') {
+      filter[key] = null;
+    }
+  }
+
+  console.log(filter);
+
+  return filter;
+};
+
+export { getPaginationOptions, getFilterOptions, getOrderFilterOptions };

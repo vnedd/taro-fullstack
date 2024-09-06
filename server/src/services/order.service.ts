@@ -1,16 +1,14 @@
 import { Request } from 'express';
-import { StatusCodes } from 'http-status-codes';
-import OrderItem, { IOrderItem } from '~/models/order-item.model';
+import OrderItem from '~/models/order-item.model';
 import Order from '~/models/order.model';
 import { EOrderStates, EPaymentStates } from '~/types/order';
-import ApiError from '~/utils/ApiError';
 import { checkRecordByField } from '~/utils/CheckRecord';
-import { getFilterOptions, getPaginationOptions } from '~/utils/Pagination';
+import { getOrderFilterOptions, getPaginationOptions } from '~/utils/Pagination';
 import { Transformer } from '~/utils/transformer';
 
 export default class OrderService {
   static getAllOrder = async (req: Request) => {
-    const filter = getFilterOptions(req, ['productName']);
+    const filter = getOrderFilterOptions(req);
 
     const options = getPaginationOptions(req);
 
