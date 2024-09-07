@@ -1,9 +1,14 @@
+import { buildUrl } from "@/helpers/api.helpers";
 import {
   TLoginSchema,
   TRegisterSchema,
   TUpdateUserSchema,
 } from "@/schemas/auth";
-import { IApiResponse } from "@/types/response";
+import {
+  IApiResponse,
+  IPaginationResponse,
+  TUrlParams,
+} from "@/types/response";
 import { IUser } from "@/types/user";
 import axios, { AxiosError } from "axios";
 
@@ -57,6 +62,21 @@ export const loginGoogle = async (code: string) => {
   } catch (error) {
     if (error instanceof AxiosError) {
       const errorMessage = error.response?.data?.message || "Login failed";
+      throw new Error(errorMessage);
+    }
+    throw new Error("Internal error!");
+  }
+};
+
+export const getAllUsers = async (params: TUrlParams = {}) => {
+  try {
+    const url = buildUrl("/users", params);
+    const response = await axios.get<IPaginationResponse<IUser>>(url);
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      const errorMessage =
+        error.response?.data?.message || "Get All Users failed";
       throw new Error(errorMessage);
     }
     throw new Error("Internal error!");
