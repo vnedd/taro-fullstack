@@ -2,7 +2,6 @@ import { Request } from 'express';
 import User from '~/models/user.model';
 import { StatusCodes } from 'http-status-codes';
 import ApiError from '~/utils/ApiError';
-import { Types } from 'mongoose';
 
 export class UserService {
   static toggleWishlist = async (req: Request) => {
