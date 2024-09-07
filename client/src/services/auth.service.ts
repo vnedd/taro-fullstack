@@ -1,4 +1,8 @@
-import { TLoginSchema, TRegisterSchema } from "@/schemas/auth";
+import {
+  TLoginSchema,
+  TRegisterSchema,
+  TUpdateUserSchema,
+} from "@/schemas/auth";
 import { IApiResponse } from "@/types/response";
 import { IUser } from "@/types/user";
 import axios, { AxiosError } from "axios";
@@ -67,6 +71,23 @@ export const profileRequest = async () => {
     if (error instanceof AxiosError) {
       const errorMessage =
         error.response?.data?.message || "Get Profile failed";
+      throw new Error(errorMessage);
+    }
+    throw new Error("Internal error!");
+  }
+};
+
+export const updateUser = async (updateData: TUpdateUserSchema) => {
+  try {
+    const { data } = await axios.post<IApiResponse<IUser>>(
+      "/users/update",
+      updateData
+    );
+    return data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      const errorMessage =
+        error.response?.data?.message || "Update user failed";
       throw new Error(errorMessage);
     }
     throw new Error("Internal error!");

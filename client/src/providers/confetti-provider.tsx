@@ -12,7 +12,7 @@ const ConfettiProvider = () => {
       numberOfPieces={500}
       recycle={false}
       onConfettiComplete={() => confetti.onClose()}
-    ></ReactConfetti>
+    />
   );
 };
 

@@ -11,7 +11,7 @@ export interface IUser {
   password?: string;
   google_id?: string;
   email: string;
-  avatar_url?: string;
+  avatarUrl?: string;
   role: ERole;
   wishlist: IProductLite[];
   accessToken: string;

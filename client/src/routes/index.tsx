@@ -1,5 +1,6 @@
 import AdminLayout from "@/layouts/admin";
 import AuthLayout from "@/layouts/auth";
+import AccountLayout from "@/layouts/account";
 import DefaultLayout from "@/layouts/default";
 
 import CategoriesPage from "@/pages/(admin)/categories";
@@ -13,6 +14,7 @@ import CopyPage from "@/pages/(admin)/products/copy";
 import UpdatePage from "@/pages/(admin)/products/update";
 import SizesPage from "@/pages/(admin)/sizes";
 import StylesPage from "@/pages/(admin)/styles";
+import ProfilePage from "@/pages/(platform)/account/profile";
 
 import CartPage from "@/pages/(platform)/cart";
 import CheckoutPage from "@/pages/(platform)/checkout";
@@ -24,8 +26,11 @@ import LoginPage from "@/pages/(platform)/login";
 import ProductDetailPage from "@/pages/(platform)/product-detail";
 import RegisterPage from "@/pages/(platform)/register";
 import ShopPage from "@/pages/(platform)/shop";
+import { default as OrderClientPage } from "@/pages/(platform)/account/orders";
+import { default as OrderDetailClientPage } from "@/pages/(platform)/account/orders/order-details";
 
 import NotFound from "@/pages/not-found";
+import WishlistPage from "@/pages/(platform)/account/wishlist";
 
 export const routerConfig = [
   {
@@ -63,6 +68,28 @@ export const routerConfig = [
       {
         path: "product/:id",
         element: <ProductDetailPage />,
+      },
+    ],
+  },
+  {
+    path: "account",
+    element: <AccountLayout />,
+    children: [
+      {
+        path: "profile",
+        element: <ProfilePage />,
+      },
+      {
+        path: "wishlist",
+        element: <WishlistPage />,
+      },
+      {
+        path: "orders",
+        element: <OrderClientPage />,
+      },
+      {
+        path: "orders/:orderId",
+        element: <OrderDetailClientPage />,
       },
     ],
   },

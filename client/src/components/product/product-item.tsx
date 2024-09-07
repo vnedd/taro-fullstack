@@ -1,11 +1,4 @@
-import {
-  useState,
-  useRef,
-  useCallback,
-  useEffect,
-  memo,
-  forwardRef,
-} from "react";
+import { useState, useCallback, memo, forwardRef } from "react";
 import { Badge } from "../ui/badge";
 import { WiStars } from "react-icons/wi";
 import { cn, formatter } from "@/lib/utils";
@@ -24,33 +17,8 @@ type Props = {
 
 const ProductItem = memo(
   forwardRef<HTMLDivElement, Props>(({ item, className }, ref) => {
-    const [thumb, setThumb] = useState<string>(item.images[0]);
     const [isOpen, setIsOpen] = useState(false);
-    const thumbRef = useRef<HTMLDivElement>(null);
     const { isAuth } = useAuthStore();
-
-    const handleMouseMove = useCallback(() => {
-      if (item.images[1]) {
-        setThumb(item.images[1]);
-      }
-    }, [item.images]);
-
-    const handleMouseLeave = useCallback(() => {
-      setThumb(item.images[0]);
-    }, [item.images]);
-
-    useEffect(() => {
-      const currentThumb = thumbRef.current;
-      if (currentThumb) {
-        currentThumb.addEventListener("mousemove", handleMouseMove);
-        currentThumb.addEventListener("mouseleave", handleMouseLeave);
-
-        return () => {
-          currentThumb.removeEventListener("mousemove", handleMouseMove);
-          currentThumb.removeEventListener("mouseleave", handleMouseLeave);
-        };
-      }
-    }, [handleMouseMove, handleMouseLeave]);
 
     const renderPrice = useCallback(() => {
       const basePrice = 20.99;
@@ -81,13 +49,10 @@ const ProductItem = memo(
           ref={ref}
           className={cn("p-2 rounded-md cursor-pointer", className)}
         >
-          <div
-            ref={thumbRef}
-            className="aspect-[6/8] group relative overflow-hidden transition"
-          >
+          <div className="aspect-[6/8] group relative overflow-hidden transition">
             <Link to={`/product/${item.id}`}>
               <img
-                src={thumb}
+                src={item.images[0]}
                 alt={item.name}
                 className="object-cover w-full h-full"
               />
@@ -128,11 +93,13 @@ const ProductItem = memo(
             {renderPrice()}
           </div>
         </div>
-        <QuickCartModal
-          productId={item.id}
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-        />
+        {isOpen && (
+          <QuickCartModal
+            productId={item.id}
+            isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
+          />
+        )}
       </>
     );
   })

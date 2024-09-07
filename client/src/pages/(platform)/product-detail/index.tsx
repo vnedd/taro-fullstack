@@ -1,7 +1,7 @@
-import { useProduct } from "@/hooks/use-product";
 import { useEffect } from "react";
+import { useProduct } from "@/hooks/use-product";
 import { useNavigate, useParams } from "react-router-dom";
-import Loading from "./_components/loading";
+import Loading from "@/components/product/loading";
 import ErrorBlock from "@/components/error-block";
 import Container from "@/components/container";
 import BreadCrumb from "./_components/breadcum";

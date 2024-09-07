@@ -18,6 +18,7 @@ interface FormInputProps<TFieldValues extends FieldValues> {
   placeholder?: string;
   className?: string;
   loading?: boolean;
+  disabled?: boolean;
 }
 
 export function FormInput<TFieldValues extends FieldValues>({
@@ -28,6 +29,7 @@ export function FormInput<TFieldValues extends FieldValues>({
   type = "text",
   placeholder,
   className,
+  disabled,
 }: FormInputProps<TFieldValues>) {
   return (
     <FormField
@@ -40,7 +42,7 @@ export function FormInput<TFieldValues extends FieldValues>({
             <Input
               {...field}
               type={type}
-              disabled={loading ?? loading}
+              disabled={loading ?? disabled}
               placeholder={placeholder}
               className={cn(className)}
             />

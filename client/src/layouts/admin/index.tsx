@@ -1,6 +1,6 @@
 import { useAuthStore } from "@/store/auth";
 import { ERole } from "@/types/user";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Header from "./_components/header";
 import Sidebar from "./_components/sidebar";
@@ -19,22 +19,23 @@ const AdminLayout = () => {
     }
   }, [navigate, profile]);
 
-  if (!profile || profile.role !== ERole.ADMIN) {
+  const isAdmin = useMemo(() => profile?.role === ERole.ADMIN, [profile]);
+
+  if (!isAdmin) {
     return null;
   }
 
   return (
-    <div>
-      <div className="md:w-16 md:fixed md:block inset-y-0 hidden border-r bg-white dark:bg-transparent">
+    <div className="flex">
+      <aside className="md:w-16 md:fixed md:inset-y-0 hidden md:flex border-r bg-white dark:bg-transparent">
         <Sidebar />
-      </div>
-
-      <div className="md:pl-16  min-h-screen">
+      </aside>
+      <main className="flex-1 md:ml-16 min-h-screen">
         <Header />
-        <div className="lg:p-4 p-3">
+        <div className="p-3 lg:p-4">
           <Outlet />
         </div>
-      </div>
+      </main>
     </div>
   );
 };

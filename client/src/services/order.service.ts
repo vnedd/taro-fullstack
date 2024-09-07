@@ -1,7 +1,11 @@
 import axios from "axios";
 import { EOrderStates, IOrder, IShippingInfo } from "@/types/order";
 import { buildUrl } from "@/helpers/api.helpers";
-import { IPaginationResponse, TOrderUrlParams } from "@/types/response";
+import {
+  IPaginationResponse,
+  TOrderOfUserUrlParams,
+  TOrderUrlParams,
+} from "@/types/response";
 
 const API_PREFIX = "/orders";
 
@@ -26,11 +30,11 @@ const getOneOrder = async (id: string): Promise<IOrder | null> => {
 };
 
 const getOrderByUser = async (
-  userId: string
+  params: TOrderOfUserUrlParams
 ): Promise<IPaginationResponse<IOrder>> => {
-  const { data } = await axios.get<IPaginationResponse<IOrder>>(
-    `${API_PREFIX}/user/${userId}`
-  );
+  const { userId, ...rest } = params;
+  const url = buildUrl(`${API_PREFIX}/user/${userId}`, rest);
+  const { data } = await axios.get<IPaginationResponse<IOrder>>(url);
   return data;
 };
 

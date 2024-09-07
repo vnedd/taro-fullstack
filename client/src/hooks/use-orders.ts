@@ -5,7 +5,11 @@ import {
   UseQueryOptions,
 } from "@tanstack/react-query";
 
-import { IPaginationResponse, TOrderUrlParams } from "@/types/response";
+import {
+  IPaginationResponse,
+  TOrderOfUserUrlParams,
+  TOrderUrlParams,
+} from "@/types/response";
 import { IOrder } from "@/types/order";
 import {
   canceledOrder,
@@ -40,15 +44,15 @@ export const useOrder = (id: string) => {
 };
 
 export const useOrderByUser = (
-  userId: string,
+  params: TOrderOfUserUrlParams,
   options?: Omit<
     UseQueryOptions<IPaginationResponse<IOrder>, Error>,
     "queryKey" | "queryFn"
   >
 ) => {
   return useQuery<IPaginationResponse<IOrder>, Error>({
-    queryKey: ["orders", userId],
-    queryFn: () => getOrderByUser(userId),
+    queryKey: ["orders", params],
+    queryFn: () => getOrderByUser(params),
     ...options,
   });
 };

@@ -33,3 +33,7 @@ export type TOrderUrlParams = {
   start_date?: Date;
   end_date?: Date;
 };
+
+export type TOrderOfUserUrlParams = TOrderUrlParams & {
+  userId: string;
+};

@@ -16,7 +16,7 @@ import { SlHandbag } from "react-icons/sl";
 import UserAvatar from "@/components/user-avatar";
 import { GoPerson } from "react-icons/go";
 import { useAuthStore } from "@/store/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ERole } from "@/types/user";
 
 const USER_MENU = [
@@ -31,19 +31,21 @@ const USER_MENU = [
     href: "/account/orders",
   },
   {
-    label: "Settings",
+    label: "Wishlist",
     icon: IoSettingsOutline,
-    href: "/account/settings",
+    href: "/account/wishlist",
   },
 ];
 
 const UserButton = () => {
   const [open, setOpen] = useState(false);
-
+  const navigate = useNavigate();
   const { profile, logout } = useAuthStore();
 
   const handleLogout = () => {
-    logout();
+    logout(() => {
+      navigate("/auth/login");
+    });
   };
 
   return (
@@ -54,7 +56,7 @@ const UserButton = () => {
       <DropdownMenuContent align="end" className="min-w-[180px]">
         <DropdownMenuLabel className="text-sm">
           <div className="flex items-center space-x-3">
-            <UserAvatar url={profile?.avatar_url} />
+            <UserAvatar url={profile?.avatarUrl} />
             <p className="text-sm">{profile?.username}</p>
           </div>
         </DropdownMenuLabel>
