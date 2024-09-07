@@ -1,7 +1,7 @@
 import AlertModal from "@/components/modals/alert-modal";
 import { Button } from "@/components/ui/button";
 import { useCanceledOrder } from "@/hooks/use-orders";
-import { IOrder } from "@/types/order";
+import { EOrderStates, IOrder } from "@/types/order";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -41,8 +41,9 @@ const OrderActions = ({ order }: OrderActionsProps) => {
           disabled={
             isPending ||
             !!order.tracking?.code ||
-            order.orderState === "Shipped" ||
-            order.orderState === "Cancelled"
+            order.orderState === EOrderStates.Shipped ||
+            order.orderState === EOrderStates.Cancelled ||
+            order.orderState === EOrderStates.Delivered
           }
           variant={"destructive"}
           size={"sm"}
