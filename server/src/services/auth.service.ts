@@ -9,27 +9,25 @@ import { checkRecordByField } from '~/utils/CheckRecord';
 import jwtUtils from '~/utils/Jwt';
 
 export class AuthService {
-  static register = async (req: Request) => {
+  static async register(req: Request) {
     const { username, email, password } = req.body;
 
     await checkRecordByField(User, 'email', email, false);
 
-    // create a new user
     const newUser = await User.create({
       username,
       email,
       password: bcrypt.hashSync(password, 10)
     });
 
-    delete newUser.password;
+    const { password: _, ...userWithoutPassword } = newUser.toObject();
+    return userWithoutPassword;
+  }
 
-    return newUser;
-  };
-
-  static login = async (req: Request) => {
+  static async login(req: Request) {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
       throw new ApiError(StatusCodes.UNAUTHORIZED, 'You are not authorized to access');
@@ -42,18 +40,13 @@ export class AuthService {
       );
     }
 
-    const isMatch = bcrypt.compare(password, user.password as string);
+    const isMatch = await bcrypt.compare(password, user.password as string);
 
     if (!isMatch) {
-      throw new ApiError(401, 'Email or Password is incorrect');
+      throw new ApiError(StatusCodes.UNAUTHORIZED, 'Email or Password is incorrect');
     }
 
-    user.password = undefined;
-
-    // create access token
     const accessToken = jwtUtils.createAccessToken(user._id);
-
-    // create refresh token
     const refreshToken = jwtUtils.createRefreshToken();
 
     await Token.findOneAndUpdate(
@@ -62,14 +55,11 @@ export class AuthService {
       { upsert: true, new: true }
     );
 
-    return {
-      user,
-      accessToken,
-      refreshToken
-    };
-  };
+    const { password: _, ...userWithoutPassword } = user.toObject();
+    return { user: userWithoutPassword, accessToken, refreshToken };
+  }
 
-  static loginGoogle = async (req: Request) => {
+  static async loginGoogle(req: Request) {
     const { code } = req.body;
     const client = new OAuth2Client(
       process.env.GOOGLE_CLIENT_ID,
@@ -79,7 +69,6 @@ export class AuthService {
 
     try {
       const { tokens } = await client.getToken(code);
-
       const ticket = await client.verifyIdToken({
         idToken: tokens.id_token!,
         audience: process.env.GOOGLE_CLIENT_ID
@@ -132,60 +121,32 @@ export class AuthService {
       }
       throw new ApiError(StatusCodes.BAD_REQUEST, 'Failed to authenticate with Google');
     }
-  };
+  }
 
-  static logout = async (req: Request) => {
+  static async logout(req: Request) {
+    const { refreshToken } = req.body;
+    return Token.findOneAndDelete({ refresh_token: refreshToken });
+  }
+
+  static async refreshToken(req: Request) {
     const { refreshToken } = req.body;
 
-    return await Token.findOneAndDelete({ refresh_token: refreshToken });
-  };
-
-  static refreshToken = async (req: Request) => {
-    try {
-      const { refreshToken } = req.body;
-
-      if (!refreshToken) {
-        throw new ApiError(StatusCodes.BAD_REQUEST, 'Refresh token is required');
-      }
-
-      // Validate the refresh token
-      const decodedToken = jwtUtils.decodeRefreshToken(refreshToken);
-      if (!decodedToken) {
-        throw new ApiError(StatusCodes.UNAUTHORIZED, 'Invalid refresh token');
-      }
-
-      // Check if the refresh token exists in the database
-      const tokenInfo = await Token.findOne({ refresh_token: refreshToken });
-      if (!tokenInfo) {
-        throw new ApiError(StatusCodes.UNAUTHORIZED, 'Refresh token not found');
-      }
-
-      // Generate a new access token
-      const newAccessToken = jwtUtils.createAccessToken(tokenInfo.user_id);
-
-      return {
-        access_token: newAccessToken,
-        refresh_token: refreshToken
-      };
-    } catch (error: any) {
-      throw new ApiError(StatusCodes.UNAUTHORIZED, error.message || 'Failed to refresh token');
-    }
-  };
-
-  static getProfile = async (req: Request) => {
-    //@ts-ignore
-    const user = await User.findOne(req.user._id);
-
-    if (!user) {
-      throw new ApiError(StatusCodes.UNAUTHORIZED, 'Authentication failed');
+    if (!refreshToken) {
+      throw new ApiError(StatusCodes.BAD_REQUEST, 'Refresh token is required');
     }
 
-    user.password = undefined;
+    const decodedToken = jwtUtils.decodeRefreshToken(refreshToken);
+    if (!decodedToken) {
+      throw new ApiError(StatusCodes.UNAUTHORIZED, 'Invalid refresh token');
+    }
 
-    const userProfile = {
-      ...user.toObject()
-    };
+    const tokenInfo = await Token.findOne({ refresh_token: refreshToken });
+    if (!tokenInfo) {
+      throw new ApiError(StatusCodes.UNAUTHORIZED, 'Refresh token not found');
+    }
 
-    return userProfile;
-  };
+    const newAccessToken = jwtUtils.createAccessToken(tokenInfo.user_id);
+
+    return { access_token: newAccessToken, refresh_token: refreshToken };
+  }
 }

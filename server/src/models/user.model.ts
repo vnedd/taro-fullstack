@@ -1,10 +1,22 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 import { ERole } from '~/types/user';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
 const DOCUMENT_NAME = 'User';
 const COLLECTION_NAME = 'Users';
 
-const userSchema = new Schema(
+interface IUser extends Document {
+  _id?: mongoose.Types.ObjectId;
+  username: string;
+  password?: string;
+  google_id?: string;
+  email: string;
+  avatar_url?: string;
+  role: ERole;
+  wishlist: mongoose.Types.ObjectId[];
+}
+
+const userSchema = new Schema<IUser>(
   {
     username: {
       type: String,
@@ -29,7 +41,13 @@ const userSchema = new Schema(
       type: String,
       enum: ERole,
       default: ERole.MEMBER
-    }
+    },
+    wishlist: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Product'
+      }
+    ]
   },
   {
     timestamps: true,
@@ -38,6 +56,8 @@ const userSchema = new Schema(
   }
 );
 
-const User = mongoose.model(DOCUMENT_NAME, userSchema);
+userSchema.plugin(mongoosePaginate);
+
+const User = mongoose.model<IUser, mongoose.PaginateModel<IUser>>(DOCUMENT_NAME, userSchema);
 
 export default User;

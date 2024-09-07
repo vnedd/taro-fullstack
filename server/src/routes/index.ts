@@ -8,10 +8,12 @@ import productRouter from './product';
 import checkoutRouter from './checkout';
 import orderRouter from './order';
 import trackingRouter from './tracking';
+import userRouter from './user';
 
 const router = Router();
 
 router.use('/auth', authRouter);
+router.use('/users', userRouter);
 router.use('/categories', categoryRouter);
 router.use('/styles', styleRouter);
 router.use('/sizes', sizeRouter);

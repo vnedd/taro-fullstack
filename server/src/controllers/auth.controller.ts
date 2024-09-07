@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import { AuthService } from '~/services/auth.service';
 import { SuccessResponse } from '~/utils/Response';
 import { Transformer } from '~/utils/transformer';
-
+import { Document } from 'mongoose';
 export class AuthController {
   static register = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -13,7 +13,9 @@ export class AuthController {
         res,
         StatusCodes.OK,
         'Registration successfully',
-        Transformer.transformObjectTypeSnakeToCamel(newUser.toObject())
+        Transformer.transformObjectTypeSnakeToCamel(
+          newUser instanceof Document ? newUser.toObject() : newUser
+        )
       );
     } catch (error) {
       next(error);
@@ -25,7 +27,9 @@ export class AuthController {
       const { user, accessToken, refreshToken } = await AuthService.login(req);
 
       const metaData = {
-        userData: Transformer.transformObjectTypeSnakeToCamel(user.toObject()),
+        userData: Transformer.transformObjectTypeSnakeToCamel(
+          user instanceof Document ? user.toObject() : user
+        ),
         accessToken: accessToken,
         refreshToken: refreshToken
       };
@@ -70,21 +74,6 @@ export class AuthController {
         StatusCodes.OK,
         'Refresh token successfully',
         Transformer.transformObjectTypeSnakeToCamel(metaData)
-      );
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  static getProfileUser = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const userProfile = await AuthService.getProfile(req);
-
-      SuccessResponse(
-        res,
-        StatusCodes.OK,
-        'Get Profile User successfully',
-        Transformer.transformObjectTypeSnakeToCamel(userProfile)
       );
     } catch (error) {
       next(error);
