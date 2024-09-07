@@ -32,4 +32,18 @@ export class UserController {
       next(error);
     }
   };
+  static updateUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userProfile = await UserService.updateUserInfo(req);
+
+      SuccessResponse(
+        res,
+        StatusCodes.OK,
+        'User updated successfully',
+        Transformer.transformObjectTypeSnakeToCamel(userProfile)
+      );
+    } catch (error) {
+      next(error);
+    }
+  };
 }

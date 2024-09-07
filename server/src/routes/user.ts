@@ -6,5 +6,6 @@ const userRouter = express.Router();
 
 userRouter.get('/profile', authMiddleware, UserController.getProfileUser);
 userRouter.post('/toggle-wishlist', authMiddleware, UserController.toggleWishlist);
+userRouter.post('/update', authMiddleware, UserController.updateUser);
 
 export default userRouter;

@@ -2,6 +2,7 @@ import { Request } from 'express';
 import User from '~/models/user.model';
 import { StatusCodes } from 'http-status-codes';
 import ApiError from '~/utils/ApiError';
+import bcrypt from 'bcrypt';
 
 export class UserService {
   static toggleWishlist = async (req: Request) => {
@@ -46,5 +47,41 @@ export class UserService {
 
     const { password: _, ...userProfile } = user;
     return userProfile;
+  }
+
+  static async updateUserInfo(req: Request) {
+    //@ts-ignore
+    const userId = req.user?._id;
+    const { username, avatar_url, currentPassword, newPassword } = req.body;
+
+    if (!userId) {
+      throw new ApiError(StatusCodes.UNAUTHORIZED, 'User not authenticated');
+    }
+
+    const user = await User.findById(userId);
+
+    console.log(req.body);
+
+    if (!user) {
+      throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
+    }
+
+    if (username) user.username = username;
+    if (avatar_url) user.avatar_url = avatar_url;
+
+    if (currentPassword && newPassword) {
+      const isPasswordCorrect = await bcrypt.compare(currentPassword, user.password!);
+      console.log(isPasswordCorrect);
+      if (!isPasswordCorrect) {
+        throw new ApiError(StatusCodes.BAD_REQUEST, 'Current password is incorrect');
+      }
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      user.password = hashedPassword;
+    }
+
+    await user.save();
+
+    const { password: _, ...updatedUserProfile } = user.toObject();
+    return updatedUserProfile;
   }
 }

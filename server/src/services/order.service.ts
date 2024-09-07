@@ -49,23 +49,27 @@ export default class OrderService {
   static getOrderByUser = async (req: Request) => {
     const { userId } = req.params;
 
-    let data = await Order.find({
-      userId
-    }).populate([
+    const filter = { userId, ...getOrderFilterOptions(req) };
+    const options = getPaginationOptions(req);
+
+    options.populate = [
       { path: 'orderState' },
       { path: 'paymentState' },
       { path: 'tracking' },
       { path: 'orderItems' }
-    ]);
-    if (!data) data = [];
+    ];
 
-    const transformedOrders = data.map((order) => {
+    const orders = await Order.paginate(filter, options);
+
+    const { docs, ...otherFields } = orders;
+
+    const transformedOrders = docs.map((order) => {
       return Transformer.transformObjectTypeSnakeToCamel(order.toObject());
     });
 
     return {
       metaData: Transformer.removeDeletedField(transformedOrders),
-      others: {}
+      others: { ...otherFields }
     };
   };
 

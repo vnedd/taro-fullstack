@@ -12,7 +12,7 @@ orderRouter.get('/', OrderController.getAllOrder);
 orderRouter.get('/:id', objectIdValidation, OrderController.getOneOrder);
 
 // get one order by user
-orderRouter.get('/user/:userId', objectIdValidation, OrderController.getOrderByUser);
+orderRouter.get('/user/:userId', OrderController.getOrderByUser);
 
 // update a order by id
 orderRouter.patch('/:id/shipping-update', authMiddleware, OrderController.updateShipingInfo);

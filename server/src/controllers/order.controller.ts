@@ -25,9 +25,9 @@ export class OrderController {
   };
   static getOrderByUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const orders = await OrderService.getOrderByUser(req);
+      const { metaData, others } = await OrderService.getOrderByUser(req);
 
-      SuccessResponse(res, StatusCodes.OK, 'Get orders by user successfully', orders);
+      SuccessResponse(res, StatusCodes.OK, 'Get orders by user successfully', metaData, others);
     } catch (error) {
       next(error);
     }
