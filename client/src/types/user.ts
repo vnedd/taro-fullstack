@@ -1,3 +1,5 @@
+import { IProductLite } from "./product";
+
 export enum ERole {
   ADMIN = "admin",
   MEMBER = "member",
@@ -11,6 +13,7 @@ export interface IUser {
   email: string;
   avatar_url?: string;
   role: ERole;
+  wishlist: IProductLite[];
   accessToken: string;
   refreshToken: string;
 }

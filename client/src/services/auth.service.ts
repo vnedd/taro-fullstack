@@ -61,7 +61,7 @@ export const loginGoogle = async (code: string) => {
 
 export const profileRequest = async () => {
   try {
-    const { data } = await axios.get<IApiResponse<IUser>>("/auth/profile");
+    const { data } = await axios.get<IApiResponse<IUser>>("/users/profile");
     return data;
   } catch (error) {
     if (error instanceof AxiosError) {

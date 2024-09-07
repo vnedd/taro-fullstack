@@ -11,6 +11,8 @@ import { WiStars } from "react-icons/wi";
 import { cn, formatter } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { IProductLite } from "@/types/product";
+import ToggleWishlist from "../toggle-wishlist";
+import { useAuthStore } from "@/store/auth";
 
 type Props = {
   item: IProductLite;
@@ -21,6 +23,7 @@ const ProductItem = memo(
   forwardRef<HTMLDivElement, Props>(({ item, className }, ref) => {
     const [thumb, setThumb] = useState<string>(item.images[0]);
     const thumbRef = useRef<HTMLDivElement>(null);
+    const { isAuth } = useAuthStore();
 
     const handleMouseMove = useCallback(() => {
       if (item.images[1]) {
@@ -86,6 +89,11 @@ const ProductItem = memo(
                 <WiStars className="w-3 h-3" />
                 Featured
               </Badge>
+            </div>
+          )}
+          {isAuth && (
+            <div className="absolute right-2 top-2">
+              <ToggleWishlist productId={item.id} />
             </div>
           )}
         </div>

@@ -30,6 +30,14 @@ type AuthState = {
   cleanErrors: () => void;
 };
 
+const handleError = (error: any, defaultMessage: string) => {
+  const errorMessage =
+    error instanceof AxiosError
+      ? error.response?.data?.message || defaultMessage
+      : defaultMessage;
+  return errorMessage;
+};
+
 const storeApi: StateCreator<AuthState> = (set, get) => ({
   profile: null,
   isAuth: false,
@@ -44,10 +52,9 @@ const storeApi: StateCreator<AuthState> = (set, get) => ({
     try {
       await register(data);
       toast.success("Register successful");
-      if (onSuccess) onSuccess();
+      onSuccess?.();
     } catch (error: any) {
-      const errorMessage =
-        (error as AxiosError)?.message || "Registration failed";
+      const errorMessage = handleError(error, "Registration failed");
       set({ errors: errorMessage });
       toast.error(errorMessage);
     } finally {
@@ -64,9 +71,9 @@ const storeApi: StateCreator<AuthState> = (set, get) => ({
       localStorage.setItem("refreshToken", res.metaData.refreshToken);
       toast.success("Login successful");
       await get().getProfile();
-      if (onSuccess) onSuccess();
+      onSuccess?.();
     } catch (error: any) {
-      const errorMessage = (error as AxiosError)?.message || "Login failed";
+      const errorMessage = handleError(error, "Login failed");
       set({ errors: errorMessage });
       toast.error(errorMessage);
     } finally {
@@ -83,9 +90,9 @@ const storeApi: StateCreator<AuthState> = (set, get) => ({
       localStorage.setItem("refreshToken", res.metaData.refreshToken);
       toast.success("Google login successful");
       await get().getProfile();
-      if (onSuccess) onSuccess();
+      onSuccess?.();
     } catch (error: any) {
-      const errorMessage = error.message || "Google login failed";
+      const errorMessage = handleError(error, "Google login failed");
       set({ errors: errorMessage });
       toast.error(errorMessage);
     } finally {
@@ -133,12 +140,10 @@ const storeApi: StateCreator<AuthState> = (set, get) => ({
       set({ profile: null, isAuth: false, errors: null });
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
-
       toast.success("Logged out successfully");
-
-      if (onSuccess) onSuccess();
+      onSuccess?.();
     } catch (error: any) {
-      const errorMessage = (error as AxiosError)?.message || "Logout failed";
+      const errorMessage = handleError(error, "Logout failed");
       set({ errors: errorMessage });
       toast.error(errorMessage);
     } finally {
