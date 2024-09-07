@@ -23,7 +23,7 @@ type Props = {
   data: IProduct;
 };
 const ProductDetails = ({ data }: Props) => {
-  const cart = useStore(useCart, (s) => s);
+  const cart = useCart();
   const cartSheet = useStore(useCartSheetStore, (s) => s);
   const [color, setColor] = useState<IColor | undefined>();
   const [size, setSize] = useState<ISize | undefined>();

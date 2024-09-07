@@ -32,8 +32,10 @@ const ToggleWishlist = ({ productId }: ToggleWishlistProps) => {
     try {
       await toggleWishlist(productId);
       await getProfile();
+      toast.success(
+        isInWishlist ? "Removed from wishlist" : "Added to wishlist"
+      );
       setIsInWishlist(false);
-      toast.success("Added to wishlist");
     } catch (error) {
       toast.error("Failed to update wishlist");
     } finally {

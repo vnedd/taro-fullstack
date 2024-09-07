@@ -6,7 +6,7 @@ import ErrorBlock from "@/components/error-block";
 import Container from "@/components/container";
 import BreadCrumb from "./_components/breadcum";
 import ProductGallery from "./_components/product-gallery";
-import ProductDetails from "./_components/product-details";
+import ProductDetails from "@/components/product/product-details";
 import FeaturedSection from "@/components/section/featured-section";
 import useScrollToTop from "@/hooks/use-scroll-to-top";
 
