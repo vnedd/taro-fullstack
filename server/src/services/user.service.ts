@@ -3,6 +3,8 @@ import User from '~/models/user.model';
 import { StatusCodes } from 'http-status-codes';
 import ApiError from '~/utils/ApiError';
 import bcrypt from 'bcrypt';
+import { Transformer } from '~/utils/transformer';
+import { getFilterOptions, getPaginationOptions } from '~/utils/Pagination';
 
 export class UserService {
   static toggleWishlist = async (req: Request) => {
@@ -83,5 +85,38 @@ export class UserService {
 
     const { password: _, ...updatedUserProfile } = user.toObject();
     return updatedUserProfile;
+  }
+
+  static async getAllUsers(req: Request) {
+    const { get_all } = req.query;
+
+    const filter = getFilterOptions(req, ['username', 'email']);
+
+    let users;
+
+    if (get_all === 'true') {
+      users = await User.find(filter).select('-password');
+      const transformedUsers = users.map((user) => {
+        return Transformer.transformObjectTypeSnakeToCamel(user.toObject());
+      });
+      return {
+        metaData: Transformer.removeDeletedField(transformedUsers),
+        others: {}
+      };
+    }
+
+    const options = getPaginationOptions(req);
+    users = await User.paginate(filter, { ...options, select: '-password' });
+
+    const { docs, ...otherFields } = users;
+
+    const transformedUsers = docs.map((user) => {
+      return Transformer.transformObjectTypeSnakeToCamel(user.toObject());
+    });
+
+    return {
+      metaData: Transformer.removeDeletedField(transformedUsers),
+      others: get_all === 'true' ? {} : otherFields
+    };
   }
 }

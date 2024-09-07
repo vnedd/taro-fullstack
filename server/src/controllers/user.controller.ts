@@ -18,6 +18,16 @@ export class UserController {
       next(error);
     }
   };
+
+  static getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { metaData, others } = await UserService.getAllUsers(req);
+
+      SuccessResponse(res, StatusCodes.OK, 'Get All User successfully', metaData, others);
+    } catch (error) {
+      next(error);
+    }
+  };
   static toggleWishlist = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userProfile = await UserService.toggleWishlist(req);
