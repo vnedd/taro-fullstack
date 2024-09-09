@@ -1,7 +1,7 @@
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { cn } from "@/lib/utils";
 interface UserAvatarProps {
-  url: string | null | undefined;
+  url?: string | undefined;
   className?: string;
 }
 

@@ -1,7 +1,11 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { IPaginationResponse, TUrlParams } from "@/types/response";
+import {
+  IPaginationResponse,
+  TUrlParams,
+  IApiResponse,
+} from "@/types/response";
 import { IUser } from "@/types/user";
-import { getAllUsers } from "@/services/auth.service";
+import { getAllAdmin, getAllUsers } from "@/services/auth.service";
 
 export const useUsers = (
   params: TUrlParams = {},
@@ -14,5 +18,12 @@ export const useUsers = (
     queryKey: ["users", params],
     queryFn: () => getAllUsers(params),
     ...options,
+  });
+};
+
+export const useAllAdmin = () => {
+  return useQuery<IApiResponse<IUser[]>, Error>({
+    queryKey: ["admins"],
+    queryFn: getAllAdmin,
   });
 };

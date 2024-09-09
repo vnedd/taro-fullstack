@@ -36,7 +36,7 @@ export function FormInput<TFieldValues extends FieldValues>({
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className="w-full shrink relative">
           <FormLabel>{label}</FormLabel>
           <FormControl>
             <Input

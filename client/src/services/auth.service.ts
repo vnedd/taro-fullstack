@@ -83,6 +83,20 @@ export const getAllUsers = async (params: TUrlParams = {}) => {
   }
 };
 
+export const getAllAdmin = async () => {
+  try {
+    const response = await axios.get<IApiResponse<IUser[]>>("/users/admins");
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      const errorMessage =
+        error.response?.data?.message || "Get All Admin failed";
+      throw new Error(errorMessage);
+    }
+    throw new Error("Internal error!");
+  }
+};
+
 export const profileRequest = async () => {
   try {
     const { data } = await axios.get<IApiResponse<IUser>>("/users/profile");

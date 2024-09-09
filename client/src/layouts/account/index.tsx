@@ -5,14 +5,19 @@ import Heading from "@/components/heading";
 import { Separator } from "@/components/ui/separator";
 import { useAuthStore } from "@/store/auth";
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import SideBar from "./_components/sidebar";
 
 const AccountLayout = () => {
-  const { getProfile } = useAuthStore();
+  const { getProfile, isAuth } = useAuthStore();
+
   useEffect(() => {
     getProfile();
   }, [getProfile]);
+
+  if (!isAuth) {
+    return <Navigate to="/auth/login" replace />;
+  }
 
   return (
     <div>

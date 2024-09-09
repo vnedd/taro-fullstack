@@ -2,6 +2,7 @@ import AdminLayout from "@/layouts/admin";
 import AuthLayout from "@/layouts/auth";
 import AccountLayout from "@/layouts/account";
 import DefaultLayout from "@/layouts/default";
+import ChatLayout from "@/layouts/chat";
 
 import CategoriesPage from "@/pages/(admin)/categories";
 import ColorsPage from "@/pages/(admin)/colors";
@@ -14,8 +15,8 @@ import CopyPage from "@/pages/(admin)/products/copy";
 import UpdatePage from "@/pages/(admin)/products/update";
 import SizesPage from "@/pages/(admin)/sizes";
 import StylesPage from "@/pages/(admin)/styles";
-import ProfilePage from "@/pages/(platform)/account/profile";
 
+import ProfilePage from "@/pages/(platform)/account/profile";
 import CartPage from "@/pages/(platform)/cart";
 import CheckoutPage from "@/pages/(platform)/checkout";
 import CheckoutCanceledPage from "@/pages/(platform)/checkout/canceled";
@@ -28,9 +29,10 @@ import RegisterPage from "@/pages/(platform)/register";
 import ShopPage from "@/pages/(platform)/shop";
 import { default as OrderClientPage } from "@/pages/(platform)/account/orders";
 import { default as OrderDetailClientPage } from "@/pages/(platform)/account/orders/order-details";
+import WishlistPage from "@/pages/(platform)/account/wishlist";
+import ConversationsPage from "@/pages/(platform)/conversation";
 
 import NotFound from "@/pages/not-found";
-import WishlistPage from "@/pages/(platform)/account/wishlist";
 
 export const routerConfig = [
   {
@@ -90,6 +92,16 @@ export const routerConfig = [
       {
         path: "orders/:orderId",
         element: <OrderDetailClientPage />,
+      },
+    ],
+  },
+  {
+    path: "conversations",
+    element: <ChatLayout />,
+    children: [
+      {
+        path: ":conversationId",
+        element: <ConversationsPage />,
       },
     ],
   },
