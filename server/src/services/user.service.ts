@@ -5,6 +5,7 @@ import ApiError from '~/utils/ApiError';
 import bcrypt from 'bcrypt';
 import { Transformer } from '~/utils/transformer';
 import { getFilterOptions, getPaginationOptions } from '~/utils/Pagination';
+import { ERole } from '~/types/user';
 
 export class UserService {
   static toggleWishlist = async (req: Request) => {
@@ -62,8 +63,6 @@ export class UserService {
 
     const user = await User.findById(userId);
 
-    console.log(req.body);
-
     if (!user) {
       throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
     }
@@ -117,6 +116,18 @@ export class UserService {
     return {
       metaData: Transformer.removeDeletedField(transformedUsers),
       others: get_all === 'true' ? {} : otherFields
+    };
+  }
+
+  static async getAllAdmin(req: Request) {
+    const admins = await User.find({ role: ERole.ADMIN }).select('-password');
+    const transformedUsers = admins.map((user) => {
+      return Transformer.transformObjectTypeSnakeToCamel(user.toObject());
+    });
+
+    return {
+      metaData: Transformer.removeDeletedField(transformedUsers),
+      others: {}
     };
   }
 }

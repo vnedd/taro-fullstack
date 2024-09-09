@@ -9,6 +9,9 @@ import checkoutRouter from './checkout';
 import orderRouter from './order';
 import trackingRouter from './tracking';
 import userRouter from './user';
+import conversationRouter from './conversation';
+import messageRouter from './message';
+import pusherRouter from './pusher';
 
 const router = Router();
 
@@ -22,5 +25,8 @@ router.use('/products', productRouter);
 router.use('/checkout', checkoutRouter);
 router.use('/orders', orderRouter);
 router.use('/trackings', trackingRouter);
+router.use('/conversations', conversationRouter);
+router.use('/messages', messageRouter);
+router.use('/pusher', pusherRouter);
 
 export default router;
