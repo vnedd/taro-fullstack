@@ -8,6 +8,8 @@ import pusher from '~/config/pusher.config';
 
 export default class ConversationService {
   static createConversation = async (req: Request) => {
+    //@ts-ignore
+    const userId = req.user?._id;
     const { participants }: { participants: string[] } = req.body;
 
     if (participants.length < 2) {
@@ -32,7 +34,25 @@ export default class ConversationService {
       lastMessageAt: new Date()
     });
 
-    const newConversation = await Conversation.findById(conversation._id).populate('participants');
+    const newConversation = await Conversation.findById(conversation._id).populate([
+      {
+        path: 'participants'
+      },
+      {
+        path: 'messages',
+        populate: {
+          path: 'senderId'
+        }
+      }
+    ]);
+
+    console.log(newConversation);
+
+    await pusher.trigger(
+      `conversations_user_${userId}`,
+      'new_conversation',
+      Transformer.transformObjectTypeSnakeToCamel(newConversation?.toObject())
+    );
 
     return Transformer.transformObjectTypeSnakeToCamel(newConversation?.toObject());
   };
@@ -116,7 +136,11 @@ export default class ConversationService {
 
     const lastMessage = conversation.messages[0] as any;
 
-    if (lastMessage.senderId._id.toString() === userId.toString() || lastMessage.isSeen) {
+    if (
+      !lastMessage ||
+      lastMessage.senderId._id.toString() === userId.toString() ||
+      lastMessage.isSeen
+    ) {
       return;
     }
 

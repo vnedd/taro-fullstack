@@ -1,32 +1,21 @@
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import pusher from '~/config/pusher.config';
 
 export class PusherService {
-  static authorizeChannel = async (request: Request) => {
+  static authorizeChannel = async (request: Request, response: Response) => {
     try {
       //@ts-ignore
-      const userId = request.user?._id; // Assuming 'id' is the correct property
+      const userId = request.user?._id;
 
-      const contentType = request.headers['content-type'] || '';
-
-      let body;
-      if (contentType.includes('application/json')) {
-        body = request.body; // Express should have already parsed JSON
-      } else if (contentType.includes('application/x-www-form-urlencoded')) {
-        body = request.body; // Express should have already parsed form data
-      } else {
-        return { status: 415, body: 'Unsupported content type' };
-      }
-
-      const { socket_id: socketId, channel_name: channel } = body;
+      const { socket_id: socketId, channel_name: channel } = request.body;
 
       const presenceData = {
-        user_id: userId,
-        user_info: {}
+        user_id: userId.toString()
       };
 
       const authResponse = pusher.authorizeChannel(socketId, channel, presenceData);
-      return { status: 200, body: authResponse };
+
+      return response.send(authResponse);
     } catch (error) {
       console.error('Error authorizing Pusher channel:', error);
       return { status: 500, body: 'Internal Server Error' };
