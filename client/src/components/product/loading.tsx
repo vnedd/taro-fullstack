@@ -11,7 +11,7 @@ const Loading = () => {
           <div className="flex flex-col space-y-5">
             <Skeleton className="w-32 h-8" />
             <Skeleton className="w-64 h-8" />
-            <Skeleton className="w-96 h-8" />
+            <Skeleton className="w-[80%] h-8" />
             <div className="flex items-center space-x-3">
               <Skeleton className="aspect-square w-8 h-8" />
               <Skeleton className="aspect-square w-8 h-8" />
@@ -28,7 +28,7 @@ const Loading = () => {
               <Skeleton className="aspect-square w-24 h-11" />
               <Skeleton className="aspect-square w-24 h-11" />
             </div>
-            <Skeleton className="w-96 h-8" />
+            <Skeleton className="w-[80%] h-8" />
             <Skeleton className="w-full h-16" />
           </div>
         </div>

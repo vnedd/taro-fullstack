@@ -36,7 +36,11 @@ const QuickCartModal: React.FC<QuickCartModalProps> = ({
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} className="md:max-w-[60vw]">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      className="md:max-w-[60vw] max-h-[70vh] overflow-y-auto"
+    >
       <div className="flex flex-col lg:flex-row gap-4 w-full">
         <div className="lg:w-1/2 shrink-0">
           <img

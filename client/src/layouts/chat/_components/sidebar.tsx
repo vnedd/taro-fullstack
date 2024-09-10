@@ -19,13 +19,13 @@ const Sidebar = () => {
         isOpen ? "hidden md:block" : "block"
       )}
     >
-      <div className="flex items-center w-full p-2">
+      <div className="flex items-center justify-between w-full p-2">
         <BackBtn url="/" />
         <CreateConversationButton />
       </div>
       <ScrollArea className="flex-grow">
         {isLoading && (
-          <div className="flex flex-col space-y-3">
+          <div className="flex flex-col space-y-3 px-3">
             <Skeleton className="w-20 h-9 rounded-md" />
             <Skeleton className="w-full h-12 rounded-md " />
             <Skeleton className="w-full h-12 rounded-md " />

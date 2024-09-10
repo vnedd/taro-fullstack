@@ -22,6 +22,10 @@ const ConversationList = ({ data }: ConversationListProps) => {
 
     const channel = pusher.subscribe(`conversations_user_${profile.id}`);
 
+    const createConversationHandler = (newConversation: IConversation) => {
+      setConversations((prev) => [newConversation, ...prev]);
+    };
+
     const updateConversationHandler = (
       updatedConversation: PusherConversationData
     ) => {
@@ -36,6 +40,7 @@ const ConversationList = ({ data }: ConversationListProps) => {
     };
 
     channel.bind("update_conversation", updateConversationHandler);
+    channel.bind("new_conversation", createConversationHandler);
 
     return () => {
       channel.unbind_all();
@@ -45,13 +50,15 @@ const ConversationList = ({ data }: ConversationListProps) => {
 
   const { conversationId } = useConversation();
 
+  console.log(conversations);
+
   return (
     <div className="p-4 pt-0">
       <h3 className="text-lg font-semibold pb-3">Messages</h3>
       <div className="flex flex-col space-y-3">
-        {conversations?.map((item) => (
+        {conversations?.map((item, index) => (
           <ConversationBox
-            key={item.id}
+            key={index}
             data={item}
             selected={conversationId === item.id}
           />

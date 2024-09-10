@@ -10,6 +10,7 @@ import ToastProvider from "./providers/toast-provider";
 import QueryProvider from "./providers/query-provider";
 import { Toaster } from "@/components/ui/sonner";
 import ConfettiProvider from "./providers/confetti-provider";
+import ActiveStatus from "./components/active-status";
 
 apiConfig();
 createRoot(document.getElementById("root")!).render(
@@ -17,6 +18,7 @@ createRoot(document.getElementById("root")!).render(
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <QueryProvider>
         <BrowserRouter>
+          <ActiveStatus />
           <ConfettiProvider />
           <Toaster />
           <ToastProvider />

@@ -49,6 +49,8 @@ const ConversationBox = ({ data, selected }: ConversationBoxProps) => {
     !lastMessage.isSeen &&
     lastMessage.senderId?.id !== profile?.id;
 
+  console.log(otherUser.avatarUrl);
+
   return (
     <div
       onClick={handleClick}
@@ -59,7 +61,11 @@ const ConversationBox = ({ data, selected }: ConversationBoxProps) => {
           : "bg-white dark:bg-transparent"
       )}
     >
-      <UserAvatar className="border-none w-9 h-9" url={otherUser.avatarUrl} />
+      <UserAvatar
+        className="border-none w-9 h-9"
+        url={otherUser.avatarUrl}
+        userId={otherUser.id}
+      />
       <div className="min-w-0 flex-1">
         <div className="focus:outline-none flex flex-col items-start">
           <div className="flex items-center justify-between w-full">
@@ -76,12 +82,12 @@ const ConversationBox = ({ data, selected }: ConversationBoxProps) => {
             <p
               className={cn(
                 "truncate text-xs",
-                isUnread
+                isUnread || !lastMessage
                   ? "text-gray-900 dark:text-gray-100 font-semibold"
                   : "text-gray-500 dark:text-gray-200"
               )}
             >
-              {sender && <span>{sender}:</span>}: {lastMessageText}
+              {sender && <span>{sender}:</span>} {lastMessageText}
             </p>
             {isUnread && (
               <span className="w-2 h-2 bg-sky-500 rounded-full ml-auto"></span>

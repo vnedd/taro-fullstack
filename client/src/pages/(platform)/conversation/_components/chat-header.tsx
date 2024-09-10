@@ -20,6 +20,7 @@ const ChatHeader = ({ conversation }: ChatHeaderProps) => {
         <div className="flex items-center gap-x-3">
           <>
             <UserAvatar
+              userId={otherUser.id}
               url={otherUser.avatarUrl}
               className="border-none w-10 h-10"
             />

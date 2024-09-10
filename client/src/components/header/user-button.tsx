@@ -56,7 +56,7 @@ const UserButton = () => {
       <DropdownMenuContent align="end" className="min-w-[180px]">
         <DropdownMenuLabel className="text-sm">
           <div className="flex items-center space-x-3">
-            <UserAvatar url={profile?.avatarUrl} />
+            <UserAvatar url={profile?.avatarUrl} userId={profile?.id} />
             <p className="text-sm">{profile?.username}</p>
           </div>
         </DropdownMenuLabel>
