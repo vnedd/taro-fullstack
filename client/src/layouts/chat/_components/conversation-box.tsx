@@ -26,8 +26,6 @@ const ConversationBox = ({ data, selected }: ConversationBoxProps) => {
     [data.messages]
   );
 
-  console.log(lastMessage);
-
   const sender = useMemo(() => {
     if (!lastMessage) {
       return "";
@@ -48,8 +46,6 @@ const ConversationBox = ({ data, selected }: ConversationBoxProps) => {
     lastMessage &&
     !lastMessage.isSeen &&
     lastMessage.senderId?.id !== profile?.id;
-
-  console.log(otherUser.avatarUrl);
 
   return (
     <div

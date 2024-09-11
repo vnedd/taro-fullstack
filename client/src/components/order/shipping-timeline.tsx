@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { Loader } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { EOrderStates, IOrder, ShippingTimelineType } from "@/types/order";
@@ -11,11 +11,13 @@ type ShippingTimelineProps = {
 
 const ShippingTimeline: React.FC<ShippingTimelineProps> = ({ order }) => {
   const [timeline, setTimeline] = useState<ShippingTimelineType>();
-  const { mutateAsync, isPending } = useUpdateOrderState();
+  const [isLoading, setIsLoading] = useState(false);
+  const { mutateAsync } = useUpdateOrderState();
 
   const fetchTimeline = useCallback(async () => {
     if (!order?.tracking?.code) return;
 
+    setIsLoading(true);
     try {
       const res = await trackingIntance.get(`/${order.tracking.code}`);
       const data = res.data.return_value;
@@ -33,6 +35,8 @@ const ShippingTimeline: React.FC<ShippingTimelineProps> = ({ order }) => {
       setTimeline(data);
     } catch (error) {
       console.error("Error fetching timeline:", error);
+    } finally {
+      setIsLoading(false);
     }
   }, [order.id, order.tracking?.code, mutateAsync]);
 
@@ -59,26 +63,32 @@ const ShippingTimeline: React.FC<ShippingTimelineProps> = ({ order }) => {
     []
   );
 
-  if (isPending) {
+  const timelineContent = useMemo(() => {
+    if (isLoading) {
+      return (
+        <div className="p-20 flex items-center justify-center">
+          <Loader className="animate-spin w-6 h-6" />
+        </div>
+      );
+    }
+
     return (
-      <div className="p-20 flex items-center justify-center">
-        <Loader className="animate-spin w-6 h-6" />
+      <div>
+        <h3 className="font-semibold text-xl">Time Line</h3>
+        <div className="mt-4">
+          {timeline?.success ? (
+            <ul>{timeline.scans_detail.map(renderTimelineItem)}</ul>
+          ) : (
+            <span className="text-destructive text-sm">
+              {timeline?.message}
+            </span>
+          )}
+        </div>
       </div>
     );
-  }
+  }, [isLoading, timeline, renderTimelineItem]);
 
-  return (
-    <div>
-      <h3 className="font-semibold text-xl">Time Line</h3>
-      <div className="mt-4">
-        {timeline?.success ? (
-          <ul>{timeline.scans_detail.map(renderTimelineItem)}</ul>
-        ) : (
-          <span className="text-destructive text-sm">{timeline?.message}</span>
-        )}
-      </div>
-    </div>
-  );
+  return timelineContent;
 };
 
 export default React.memo(ShippingTimeline);

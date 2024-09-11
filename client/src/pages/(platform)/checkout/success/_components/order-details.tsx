@@ -13,7 +13,7 @@ const OrderDetails = ({ order }: OrderDetailsProps) => {
         Order details
       </h2>
       <Card>
-        <CardContent className="md:pt-6">
+        <CardContent className="pt-6">
           <OrderTotal order={order} />
         </CardContent>
       </Card>

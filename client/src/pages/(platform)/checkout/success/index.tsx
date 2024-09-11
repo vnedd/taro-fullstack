@@ -4,8 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import useScrollToTop from "@/hooks/use-scroll-to-top";
 import { useEffect } from "react";
 import { useOrder } from "@/hooks/use-orders";
-import Loading from "@/components/loading";
 import ErrorBlock from "@/components/error-block";
+import { Loader } from "lucide-react";
 
 const CheckoutSuccessPage = () => {
   const { orderId } = useParams();
@@ -19,8 +19,10 @@ const CheckoutSuccessPage = () => {
 
   if (isLoading) {
     return (
-      <Container>
-        <Loading />
+      <Container className="lg:pt-28 pt-20">
+        <div className="p-20 flex items-center justify-center">
+          <Loader className="animate-spin w-6 h-6" />
+        </div>
       </Container>
     );
   }

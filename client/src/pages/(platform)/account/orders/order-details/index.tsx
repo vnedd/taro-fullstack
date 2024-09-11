@@ -9,6 +9,8 @@ import OrderHeader from "./_components/order-header";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import OrderTotal from "@/components/order/order-total";
 import OrderActions from "./_components/order-action";
+import ShippingTimeline from "@/components/order/shipping-timeline";
+import { EOrderStates } from "@/types/order";
 
 const OrderDetailsPage = () => {
   const { orderId } = useParams();
@@ -39,6 +41,16 @@ const OrderDetailsPage = () => {
       <Card>
         <CardContent className="mt-4">
           <OrderTotal order={order} />
+          {order.orderState === EOrderStates.Unfulfilled ||
+          order.orderState === EOrderStates.Cancelled ? (
+            <div className="mt-8 text-muted-foreground">
+              Waiting for shipment
+            </div>
+          ) : (
+            <div className="mt-8">
+              <ShippingTimeline order={order} />
+            </div>
+          )}
         </CardContent>
         <CardFooter className="flex justify-end">
           <OrderActions order={order} />

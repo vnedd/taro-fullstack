@@ -29,7 +29,6 @@ const ConversationList = ({ data }: ConversationListProps) => {
     const updateConversationHandler = (
       updatedConversation: PusherConversationData
     ) => {
-      console.log(updatedConversation);
       setConversations((currentConversations) =>
         currentConversations.map((conversation) =>
           conversation.id === updatedConversation.id
@@ -49,8 +48,6 @@ const ConversationList = ({ data }: ConversationListProps) => {
   }, [profile]);
 
   const { conversationId } = useConversation();
-
-  console.log(conversations);
 
   return (
     <div className="p-4 pt-0">

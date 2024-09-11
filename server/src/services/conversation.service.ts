@@ -46,43 +46,49 @@ export default class ConversationService {
       }
     ]);
 
-    console.log(newConversation);
-
-    await pusher.trigger(
-      `conversations_user_${userId}`,
-      'new_conversation',
-      Transformer.transformObjectTypeSnakeToCamel(newConversation?.toObject())
+    const transformedConversation = Transformer.transformObjectTypeSnakeToCamel(
+      newConversation?.toObject()
     );
 
-    return Transformer.transformObjectTypeSnakeToCamel(newConversation?.toObject());
+    for (const participantId of participants) {
+      await pusher.trigger(
+        `conversations_user_${participantId.toString()}`,
+        'new_conversation',
+        transformedConversation
+      );
+    }
+
+    return transformedConversation;
   };
 
   static getConversationByUser = async (req: Request) => {
     //@ts-ignore
     const userId = req.user?._id;
 
-    const conversation = await Conversation.find({
+    const conversations = await Conversation.find({
       participants: { $in: [userId] }
-    }).populate([
-      {
-        path: 'participants'
-      },
-      {
-        path: 'messages',
-        populate: {
-          path: 'senderId'
+    })
+      .populate([
+        {
+          path: 'participants'
+        },
+        {
+          path: 'messages',
+          populate: {
+            path: 'senderId'
+          }
         }
-      }
-    ]);
+      ])
+      .sort({ lastMessageAt: -1 });
 
-    if (!conversation) {
+    if (!conversations || conversations.length === 0) {
       return {
         metaData: [],
         others: {}
       };
     }
 
-    const transformedConversations = conversation.map((conv) => {
+    const transformedConversations = conversations.map((conv) => {
       return Transformer.transformObjectTypeSnakeToCamel(conv.toObject());
     });
 

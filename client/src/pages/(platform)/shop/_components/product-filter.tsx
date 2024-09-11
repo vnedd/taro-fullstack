@@ -43,7 +43,12 @@ const ProductFilter = () => {
   };
 
   const renderContent = useMemo(() => {
-    if (isLoading) return <CardSkeleton />;
+    if (isLoading)
+      return (
+        <div className="mt-8">
+          <CardSkeleton />
+        </div>
+      );
     if (!data?.metaData || data.metaData.length === 0) {
       return (
         <div className="p-10 flex items-center justify-center text-sm">

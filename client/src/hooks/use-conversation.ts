@@ -12,7 +12,7 @@ import {
 export const useConversationByUser = () => {
   return useQuery<IPaginationResponse<IConversation>, Error>({
     queryKey: ["conversations"],
-    queryFn: () => getConversationByUser(),
+    queryFn: getConversationByUser,
   });
 };
 

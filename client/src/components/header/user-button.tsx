@@ -15,6 +15,7 @@ import {
 import { SlHandbag } from "react-icons/sl";
 import UserAvatar from "@/components/user-avatar";
 import { GoPerson } from "react-icons/go";
+import { BsChatRightDots } from "react-icons/bs";
 import { useAuthStore } from "@/store/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { ERole } from "@/types/user";
@@ -34,6 +35,11 @@ const USER_MENU = [
     label: "Wishlist",
     icon: IoSettingsOutline,
     href: "/account/wishlist",
+  },
+  {
+    label: "Chat with admin",
+    icon: BsChatRightDots,
+    href: "/conversations",
   },
 ];
 
