@@ -15,12 +15,7 @@ const dbUrl = process.env.DB_URL!;
 const port = process.env.PORT || 8080;
 
 app.use(morgan('dev'));
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL,
-    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS']
-  })
-);
+app.use(cors());
 
 app.use(
   express.urlencoded({
