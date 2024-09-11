@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuthStore } from "@/store/auth";
 import { useCheckWishlist } from "@/hooks/use-check-wishlist";
 import { toggleWishlist } from "@/services/wishlist.service";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import { RiHeartFill, RiHeartLine } from "react-icons/ri";
+
 interface ToggleWishlistProps {
   productId: string;
 }
@@ -17,31 +18,33 @@ const ToggleWishlist = ({ productId }: ToggleWishlistProps) => {
 
   useEffect(() => {
     if (isAuth) {
-      const inWishlist = checkWishlist(productId);
-      setIsInWishlist(inWishlist);
+      setIsInWishlist(checkWishlist(productId));
     }
   }, [productId, isAuth, checkWishlist]);
 
-  const handleToggleWishlist = async () => {
+  const handleToggleWishlist = useCallback(async () => {
     if (!isAuth) {
       toast.error("Please login to add to wishlist");
       return;
     }
 
     setIsLoading(true);
+    const newWishlistState = !isInWishlist;
+    setIsInWishlist(newWishlistState);
+
     try {
       await toggleWishlist(productId);
       await getProfile();
       toast.success(
-        isInWishlist ? "Removed from wishlist" : "Added to wishlist"
+        newWishlistState ? "Added to wishlist" : "Removed from wishlist"
       );
-      setIsInWishlist(false);
     } catch (error) {
+      setIsInWishlist(!newWishlistState);
       toast.error("Failed to update wishlist");
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [isAuth, productId, getProfile, isInWishlist]);
 
   return (
     <Button

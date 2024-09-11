@@ -114,6 +114,7 @@ const ProductForm = ({
           case "add":
             await createMutation(productData);
             toast.success("Product Added successfully!");
+            router("/dashboard/products");
             break;
           case "update":
             await updateMutation({
@@ -121,10 +122,13 @@ const ProductForm = ({
               id: initialData?.id || "",
             });
             toast.success("Product Updated successfully!");
+            router("/dashboard/products");
+
             break;
           case "copy":
             await createMutation(productData);
             toast.success("Product Copied successfully!");
+            router("/dashboard/products");
             break;
           default:
             return false;
@@ -134,7 +138,6 @@ const ProductForm = ({
       toast.error(error || "An error occurred while processing your request");
     } finally {
       await queryClient.refetchQueries({ queryKey: ["products"] });
-      router("/dashboard/products");
     }
   };
 

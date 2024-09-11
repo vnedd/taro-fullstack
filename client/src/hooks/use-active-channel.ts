@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import useActiveList from "./use-active-list";
 import { Channel, Members } from "pusher-js";
 import { pusher } from "@/lib/pusher";
+import { useLocation } from "react-router-dom";
 
 const useActiveChannel = () => {
+  const location = useLocation();
   const { set, add, remove } = useActiveList();
   const [activeChannel, setActiveChannel] = useState<Channel | null>(null);
 
@@ -38,7 +40,7 @@ const useActiveChannel = () => {
         setActiveChannel(null);
       }
     };
-  }, [activeChannel, set, add, remove]);
+  }, [activeChannel, set, add, remove, location]);
 
   return null;
 };

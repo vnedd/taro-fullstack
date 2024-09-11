@@ -5,8 +5,12 @@ import Stripe from 'stripe';
 import Order from '~/models/order.model';
 import { EPaymentStates } from '~/types/order';
 import ApiError from '~/utils/ApiError';
-import { endpointSecret, stripe } from '~/utils/Stripe';
+import { stripe } from '~/utils/Stripe';
+import dotenv from 'dotenv';
 
+dotenv.config();
+
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 export default class StripeService {
   static webhookService = async (req: Request, res: Response) => {
     const signature = req.headers['stripe-signature'] as string;
