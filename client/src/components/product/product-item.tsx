@@ -73,7 +73,7 @@ const ProductItem = memo(
             )}
             <Button
               size="sm"
-              className="group-hover:opacity-100 opacity-0 absolute bottom-2 right-2 hidden md:block"
+              className="group-hover:opacity-100 opacity-0 absolute bottom-2 right-2 hidden md:flex"
               onClick={() => setIsOpen(true)}
             >
               <IoMdAdd className="w-4 h-4 mr-1" />
